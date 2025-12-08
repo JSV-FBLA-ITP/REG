@@ -3,33 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viritual Pet Game</title>
+    <title>Virtual Pet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
 </head>
-<body>
-<h1>Adopt Jai's Viritual Pet</h1>
-<p>
-Welcome to the Viritual Pet Game! Choose your pet and take care of it by feeding, playing, and nurturing it. Watch your pet grow and evolve as you interact with it daily. Enjoy your time with your new virtual companion!
-</p>
-<div class="Dog">
-    <h1> Dog</h1>
-    <p>Jai's amazing Dog, can help with anything, execpt clash</p>
-</div>
-<div class="Cat">
-    <h1>Cat</h1>
-    <p> Just dont pick this one please</p>
-</div>
-<div class="Hamster">
-    <h1>Hamster</h1>
-    <p>Jai's Hamster, small and cute, but watch out for the wheel!</p>
-</div>
-<div class="Horse">
-    <h1>Horse</h1>
-    <p>Jai's Horse, strong and fast, perfect for adventures!</p>
-</div>
-<div class="Fish">
-    <h1>Fish</h1>
-    <p>Jai's Fish, colorful and calming, a great addition to any room!</p>
-</div>
+<body class="flex items-center justify-center p-4">
+
+    <div class="container">
+        <header>
+            <h1 class="main-title">
+                Adopt Your Very Own Virtual Friend
+            </h1>
+            <p class="subtitle">
+                Choose the companion that will join you on your adventure!
+            </p>
+        </header>
+
+        <div id="pet-selection-grid" class="pet-grid">
+            
+            <div data-pet="Dog" onclick="selectPet(this)" class="pet-card">
+                <img src="img/Dog-Pic.webp" alt="A stylized dog model icon" class="pet-icon-model">
+                <h2 class="text-2xl font-bold text-gray-700">Dog</h2>
+                <p class="text-sm text-gray-500 mt-1">Loyal and Playful</p>
+            </div>
+
+            <div data-pet="Cat" onclick="selectPet(this)" class="pet-card">
+                <img src="img/Cat-Pic.jpeg" alt="A stylized cat model icon" class="pet-icon-model">
+                <h2 class="text-2xl font-bold text-gray-700">Cat</h2>
+                <p class="text-sm text-gray-500 mt-1">Sleek and Independent</p>
+            </div>
+
+            <div data-pet="Hamster" onclick="selectPet(this)" class="pet-card">
+                <img src="img/hamster-pic.jpeg" alt="A stylized hamster model icon" class="pet-icon-model">
+                <h2 class="text-2xl font-bold text-gray-700">Hamster</h2>
+                <p class="text-sm text-gray-500 mt-1">Tiny and Adventurous</p>
+            </div>
+
+            <div data-pet="Horse" onclick="selectPet(this)" class="pet-card">
+                <img src="img/horse-pic.jpeg" alt="A stylized horse model icon" class="pet-icon-model">
+                <h2 class="text-2xl font-bold text-gray-700">Horse</h2>
+                <p class="text-sm text-gray-500 mt-1">Noble and Swift</p>
+            </div>
+
+            <div data-pet="Fish" onclick="selectPet(this)" class="pet-card">
+                <img src="img/fish-pic.jpeg" alt="A stylized fish model icon" class="pet-icon-model">
+                <h2 class="text-2xl font-bold text-gray-700">Fish</h2>
+                <p class="text-sm text-gray-500 mt-1">Tranquil and Bright</p>
+            </div>
+            
+        </div>
+        
+        <div class="action-area">
+            <div id="selection-message">
+                <p class="text-xl text-gray-600 font-semibold">
+                    Click a pet to see a preview of your choice!
+                </p>
+            </div>
+            
+            <button id="start-game-btn" onclick="startGame()" disabled class="start-btn">
+                Start Game
+            </button>
+        </div>
+
+    </div>
 
 </body>
 </html>
