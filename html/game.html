@@ -7,10 +7,54 @@
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-    <main class="container">
-        <h1 class="main-title">Your Pet Adventure</h1>
-        <div id="game-root"></div>
-    </main>
+
+  <div class="game-container">
+    <div class="left-panel">
+        <div class="game-header">
+            <h1 id="pet-name-display">Pet Name</h1>
+        </div>
+        <div class="game-screen">
+            <div id="pet-avatar"></div>
+            <p>Game Screen</p>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <div class="game-controls">
+            <button id="feed-button" class="game-button" onclick="handleAction('feed')">Feed</button>
+            <button id="play-button" class="game-button" onclick="handleAction('play')">Play</button>
+            <button id="sleep-button" class="game-button" onclick="handleAction('sleep')">Sleep</button>
+            <button id="clean-button" class="game-button" onclick="handleAction('clean')">Clean</button>
+            <button id="earn-button" class="game-button earn" onclick="earnMoney()">Earn</button>
+        </div>
+
+        <div class="status-panel">
+            <div class="stat-group">
+                <div class="circle-progress" id="hunger-circle" style="--percent: 100;">
+                    <span id="hunger-val">100%</span>
+                </div>
+                <label>Hunger</label>
+            </div>
+            <div class="stat-group">
+                <div class="circle-progress" id="happy-circle" style="--percent: 100;">
+                    <span id="happy-val">100%</span>
+                </div>
+                <label>Happy</label>
+            </div>
+            <div class="stat-group">
+                <div class="circle-progress" id="energy-circle" style="--percent: 100;">
+                    <span id="energy-val">100%</span>
+                </div>
+                <label>Energy</label>
+            </div>
+        </div>
+        
+        <div class="budget-info">
+            Bank: $<span id="money-display">500</span>
+        </div>
+    </div>
+</div>
+
 
     <script src="../script.js"></script>
 </body>
