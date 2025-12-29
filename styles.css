@@ -218,3 +218,66 @@
         #start-game-btn:enabled {
             animation: bounceIn 0.5s ease-out;
         }
+
+        /* --- Credits.html --- */
+        .credit-title {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--color-text-dark);
+            margin-bottom: 1rem;
+            letter-spacing: -0.05em;
+        }
+        .credits-chunk {
+            display: block !important;
+            align-items: unset !important;
+            justify-content: unset !important;
+            padding: 2rem;
+        }
+
+        .credits-chunk {
+            background-color: var(--color-white);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            margin: 1.5rem 0;
+            background-color: var(--color-indigo-300-disabled);
+        }
+
+        .Names {
+            margin: 1.5rem 0;
+            font-size: 1.125rem;
+        }
+
+
+        /* --- Navigation Bar --- */
+        .container nav {
+            align-items: center;
+            text-align: center;
+        }
+
+        .navbar ul {
+            list-style: none;
+            background-color: wheat;
+            padding: 0px;
+            margin: 0px;
+            overflow: hidden;
+            align-items: center;
+        }
+        .navbar a{
+            color: #ffffff;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            text-align: center;
+            align-items: center;
+        }
+        .navbar a:hover{
+            background-color: #1f2937;
+        }
+        nav .navbar ul li{
+            float: left;
+        }
+        
+        
+        
