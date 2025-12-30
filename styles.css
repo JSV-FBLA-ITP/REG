@@ -241,7 +241,6 @@
             box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.08);
             text-align: center;
             margin: 1.5rem 0;
-            background-color: var(--color-indigo-300-disabled);
         }
 
         .Names {
@@ -251,6 +250,38 @@
 
 
         /* --- Navigation Bar --- */
+        .creditbuttons {
+            font-weight: 600;
+            font-size: 1rem;
+            background-color: var(--color-indigo-300);
+            border-radius: 12px;  
+
+           /* background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);  
+
+            --border-width:1px;
+            border-radius: 1rem;
+            position: relative;
+
+            background: hsl(from var(--surface-3) h s l / 0.5);
+            backdrop-filter: blur(12px);   */
+        }
+
+       /* .creditbuttons::before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            inset : 0;
+            border-radius: inherit;
+            border: var(--border-width) solid transparent;
+            background: linear-gradient();
+        }  */
+
+
         .container nav {
             align-items: center;
             text-align: center;
@@ -258,7 +289,7 @@
 
         .navbar ul {
             list-style: none;
-            background-color: wheat ;
+            
             padding: 0px;
             margin: 0px;
             overflow: hidden;
