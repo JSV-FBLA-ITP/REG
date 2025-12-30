@@ -1,74 +1,64 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Virtual Pet</title>
+    <title>Adopt a Pet</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css">
 </head>
-<body class="flex items-center justify-center p-4">
+<body>
 
     <div class="container">
-    <nav class="navbar">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="Credits.html">Credits</a></li>
-        </ul>
-    </nav>
+        <nav class="navbar">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="Credits.html">Credits</a></li>
+            </ul>
+        </nav>
+        
         <header>
-            <h1 class="main-title">
-                Adopt Your Very Own Virtual Friend
-            </h1>
-            <p class="subtitle">
-                Choose the companion that will join you on your adventure!
-            </p>
+            <h1 class="main-title">Adopt Your Virtual Friend</h1>
+            <p class="subtitle">Choose the companion that will join you on your adventure!</p>
         </header>
 
         <div id="pet-selection-grid" class="pet-grid">
             
             <div data-pet="Dog" class="pet-card">
-                <img src="../img/Dog-Pic.webp" alt="A stylized dog model icon" class="pet-icon-model">
+                <img src="../img/Dog-Pic.webp" alt="Dog" class="pet-icon-model">
                 <h2 class="text-2xl font-bold text-gray-700">Dog</h2>
-                <p class="text-sm text-gray-500 mt-1">Loyal and Playful</p>
+                <p class="text-sm text-gray-500 mt-1">Loyal & Playful</p>
             </div>
 
-            <div data-pet="Cat"  class="pet-card">
-                <img src="../img/Cat-Pic.jpeg" alt="A stylized cat model icon" class="pet-icon-model">
+            <div data-pet="Cat" class="pet-card">
+                <img src="../img/Cat-Pic.jpeg" alt="Cat" class="pet-icon-model">
                 <h2 class="text-2xl font-bold text-gray-700">Cat</h2>
-                <p class="text-sm text-gray-500 mt-1">Sleek and Independent</p>
+                <p class="text-sm text-gray-500 mt-1">Sleek & Independent</p>
             </div>
 
             <div data-pet="Hamster" class="pet-card">
-                <img src="../img/hamster-pic.jpeg" alt="A stylized hamster model icon" class="pet-icon-model">
+                <img src="../img/hamster-pic.jpeg" alt="Hamster" class="pet-icon-model">
                 <h2 class="text-2xl font-bold text-gray-700">Hamster</h2>
-                <p class="text-sm text-gray-500 mt-1">Tiny and Adventurous</p>
+                <p class="text-sm text-gray-500 mt-1">Tiny & Adventurous</p>
             </div>
 
             <div data-pet="Horse" class="pet-card">
-                <img src="../img/horse-pic.jpeg" alt="A stylized horse model icon" class="pet-icon-model">
+                <img src="../img/horse-pic.jpeg" alt="Horse" class="pet-icon-model">
                 <h2 class="text-2xl font-bold text-gray-700">Horse</h2>
-                <p class="text-sm text-gray-500 mt-1">Noble and Swift</p>
+                <p class="text-sm text-gray-500 mt-1">Noble & Swift</p>
             </div>
 
             <div data-pet="Fish" class="pet-card">
-                <img src="../img/fish-pic.jpeg" alt="A stylized fish model icon" class="pet-icon-model">
+                <img src="../img/fish-pic.jpeg" alt="Fish" class="pet-icon-model">
                 <h2 class="text-2xl font-bold text-gray-700">Fish</h2>
-                <p class="text-sm text-gray-500 mt-1">Tranquil and Bright</p>
+                <p class="text-sm text-gray-500 mt-1">Tranquil & Bright</p>
             </div>
             
         </div>
         
         <div class="action-area">
-            <div id="selection-message">
-                <p class="text-xl text-gray-600 font-semibold">
-                    Click a pet to see a preview of your choice!
-                </p>
-            </div>
-            
             <button id="start-game-btn" disabled class="start-btn">
-                Start Game
+                Select a Pet
             </button>
         </div>
 
@@ -76,11 +66,4 @@
 
     <script src="../script.js"></script>
 </body>
-
-  
-    
-
-
-
-
 </html>

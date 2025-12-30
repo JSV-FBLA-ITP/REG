@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customize Your Pet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <nav class="navbar">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+            </ul>
+        </nav>
+        
+        <header>
+            <h1 class="main-title">Customize Your Companion</h1>
+            <p class="subtitle" id="selected-pet-display">You have chosen...</p>
+        </header>
+
+        <div class="customizer-layout">
+            <div class="pet-preview-box">
+                <img id="preview-image" src="" alt="Pet Preview" class="preview-avatar">
+            </div>
+
+            <div class="questions-box">
+                <form id="customization-form" onsubmit="event.preventDefault(); finalizePet();">
+                    
+                    <div class="form-group">
+                        <label for="pet-name">1. What shall we call them?</label>
+                        <input type="text" id="pet-name" placeholder="Enter name here..." maxlength="12" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pet-color">2. What does their coat look like?</label>
+                        <select id="pet-color">
+                            </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pet-personality">3. What is their personality?</label>
+                        <select id="pet-personality">
+                            <option value="playful">Playful (Standard)</option>
+                            <option value="lazy">Lazy (Hunger drops slower)</option>
+                            <option value="needy">Needy (Happiness drops faster)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="start-btn" style="width:100%">
+                        Adopt & Start Game
+                    </button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+</body>
+</html>
