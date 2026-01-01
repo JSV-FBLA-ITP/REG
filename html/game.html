@@ -2,61 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pet Game</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css">
+    <title>Game - FBLA Pet</title>
 </head>
 <body>
+    <div class="container">
+        <nav class="navbar">
+            <h2 id="pet-name-display" style="margin:0;">Pet Name</h2>
+            <button id="theme-toggle" class="btn" onclick="toggleTheme()" style="padding: 6px 12px;">🌙 Dark Mode</button>
+        </nav>
 
-  <div class="game-container">
-    <div class="left-panel">
-        <div class="game-header">
-            <h1 id="pet-name-display">Pet Name</h1>
-        </div>
-        <div class="game-screen">
-            <div id="pet-avatar"></div>
+        <div class="main-card">
+            <div style="background: var(--bg-color); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; font-size: 4rem;">🐾</div>
+            
+            <div class="stats-row">
+                <div class="stat-item"><div id="hunger-circle" class="circle-progress"><span id="hunger-val">0%</span></div><p>Hunger</p></div>
+                <div class="stat-item"><div id="happy-circle" class="circle-progress"><span id="happy-val">0%</span></div><p>Happiness</p></div>
+                <div class="stat-item"><div id="energy-circle" class="circle-progress"><span id="energy-val">0%</span></div><p>Energy</p></div>
+            </div>
+
+            <div style="margin: 2rem 0;">
+                <h2 style="margin: 0;">Bank: $<span id="money-display">0</span></h2>
+                <p style="color: var(--text-muted); font-size: 0.8rem;">Care for your pet to keep them happy!</p>
+            </div>
+
+            <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;">
+                <button class="btn" onclick="handleAction('feed')">Feed ($25)</button>
+                <button class="btn" onclick="handleAction('play')">Play ($10)</button>
+                <button class="btn" style="background: #65676b;" onclick="handleAction('sleep')">Sleep</button>
+            </div>
+            
+            <button class="btn" style="background: var(--success); width: 100%; max-width: 300px;" onclick="earnMoney()">Perform Chores (+$60)</button>
+
+            <div class="expense-list">
+                <h4 style="margin-top:0;">Recent Activity</h4>
+                <ul id="expense-list" style="list-style: none; padding: 0;"></ul>
+            </div>
         </div>
     </div>
-
-    <div class="right-panel">
-        
-        <div class="status-panel">
-            <div class="stat-group">
-                <div class="circle-progress" id="hunger-circle" style="--percent: 100;">
-                    <span id="hunger-val">100%</span>
-                </div>
-                <label>Hunger</label>
-            </div>
-            <div class="stat-group">
-                <div class="circle-progress" id="happy-circle" style="--percent: 100;">
-                    <span id="happy-val">100%</span>
-                </div>
-                <label>Happy</label>
-            </div>
-            <div class="stat-group">
-                <div class="circle-progress" id="energy-circle" style="--percent: 100;">
-                    <span id="energy-val">100%</span>
-                </div>
-                <label>Energy</label>
-            </div>
-        </div>
-        
-        <div class="budget-info">
-            Bank: $<span id="money-display">500</span>
-        </div>
-
-        <div class="game-controls">
-            <button id="feed-button" class="game-button" onclick="handleAction('feed')">Feed ($10)</button>
-            <button id="play-button" class="game-button" onclick="handleAction('play')">Play</button>
-            <button id="sleep-button" class="game-button" onclick="handleAction('sleep')">Sleep</button>
-            <button id="clean-button" class="game-button" onclick="handleAction('clean')">Clean</button>
-            <button id="earn-button" class="game-button earn" onclick="earnMoney()">Work (+$20)</button>
-        </div>
-
-    </div>
-</div>
-
     <script src="../script.js"></script>
 </body>
 </html>

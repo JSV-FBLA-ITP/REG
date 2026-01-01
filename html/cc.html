@@ -2,62 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customize Your Pet</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css">
+    <title>Customize - FBLA Pet</title>
 </head>
 <body>
-
     <div class="container">
         <nav class="navbar">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-            </ul>
+            <ul><li><a href="index.html">Home</a></li></ul>
+            <button id="theme-toggle" class="btn" onclick="toggleTheme()" style="padding: 6px 12px;">🌙 Dark Mode</button>
         </nav>
-        
-        <header>
-            <h1 class="main-title">Customize Your Companion</h1>
-            <p class="subtitle" id="selected-pet-display">You have chosen...</p>
-        </header>
 
-        <div class="customizer-layout">
-            <div class="pet-preview-box">
-                <img id="preview-image" src="" alt="Pet Preview" class="preview-avatar">
-            </div>
-
-            <div class="questions-box">
-                <form id="customization-form" onsubmit="event.preventDefault(); finalizePet();">
-                    
-                    <div class="form-group">
-                        <label for="pet-name">1. What shall we call them?</label>
-                        <input type="text" id="pet-name" placeholder="Enter name here..." maxlength="12" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="pet-color">2. What does their coat look like?</label>
-                        <select id="pet-color">
-                            </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="pet-personality">3. What is their personality?</label>
-                        <select id="pet-personality">
-                            <option value="playful">Playful (Standard)</option>
-                            <option value="lazy">Lazy (Hunger drops slower)</option>
-                            <option value="needy">Needy (Happiness drops faster)</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="start-btn" style="width:100%">
-                        Adopt & Start Game
-                    </button>
-
-                </form>
+        <div class="main-card" style="max-width: 500px;">
+            <h2>Personalize Your Pet</h2>
+            <div style="text-align: left; margin-top: 2rem;">
+                <label style="font-weight: 600; font-size: 0.9rem;">What is your pet's name?</label>
+                <input type="text" id="pet-name" placeholder="Buddy" style="width: 100%; padding: 12px; margin: 8px 0 20px 0; border-radius: 8px; border: 1px solid var(--border); box-sizing: border-box;">
+                
+                <label style="font-weight: 600; font-size: 0.9rem;">Select Personality</label>
+                <select id="pet-personality" style="width: 100%; padding: 12px; margin: 8px 0 25px 0; border-radius: 8px; border: 1px solid var(--border); box-sizing: border-box;">
+                    <option value="chilled">Chilled (Stats drop slower)</option>
+                    <option value="energetic">Energetic (Needs more attention)</option>
+                </select>
+                
+                <button onclick="finalizePet()" class="btn" style="width: 100%;">Finalize Adoption</button>
             </div>
         </div>
     </div>
-
     <script src="../script.js"></script>
 </body>
 </html>

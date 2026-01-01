@@ -2,68 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adopt a Pet</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css">
+    <title>Adopt - FBLA Pet</title>
 </head>
 <body>
-
     <div class="container">
         <nav class="navbar">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="credits.html">Credits</a></li>
-            </ul>
+            <ul><li><a href="index.html">Home</a></li><li><a href="credits.html">Credits</a></li></ul>
+            <button id="theme-toggle" class="btn" onclick="toggleTheme()" style="padding: 6px 12px;">🌙 Dark Mode</button>
         </nav>
         
-        <header>
-            <h1 class="main-title">Adopt Your Virtual Friend</h1>
-            <p class="subtitle">Choose the companion that will join you on your adventure!</p>
-        </header>
-
-        <div id="pet-selection-grid" class="pet-grid">
+        <div class="main-card">
+            <h1>Select Your Companion</h1>
+            <p style="color: var(--text-muted);">Each pet has its own unique journey. Choose wisely!</p>
             
-            <div data-pet="Dog" class="pet-card">
-                <img src="../img/Dog-Pic.webp" alt="Dog" class="pet-icon-model">
-                <h2 class="text-2xl font-bold text-gray-700">Dog</h2>
-                <p class="text-sm text-gray-500 mt-1">Loyal & Playful</p>
-            </div>
-
-            <div data-pet="Cat" class="pet-card">
-                <img src="../img/Cat-Pic.jpeg" alt="Cat" class="pet-icon-model">
-                <h2 class="text-2xl font-bold text-gray-700">Cat</h2>
-                <p class="text-sm text-gray-500 mt-1">Sleek & Independent</p>
-            </div>
-
-            <div data-pet="Hamster" class="pet-card">
-                <img src="../img/hamster-pic.jpeg" alt="Hamster" class="pet-icon-model">
-                <h2 class="text-2xl font-bold text-gray-700">Hamster</h2>
-                <p class="text-sm text-gray-500 mt-1">Tiny & Adventurous</p>
-            </div>
-
-            <div data-pet="Horse" class="pet-card">
-                <img src="../img/horse-pic.jpeg" alt="Horse" class="pet-icon-model">
-                <h2 class="text-2xl font-bold text-gray-700">Horse</h2>
-                <p class="text-sm text-gray-500 mt-1">Noble & Swift</p>
-            </div>
-
-            <div data-pet="Fish" class="pet-card">
-                <img src="../img/fish-pic.jpeg" alt="Fish" class="pet-icon-model">
-                <h2 class="text-2xl font-bold text-gray-700">Fish</h2>
-                <p class="text-sm text-gray-500 mt-1">Tranquil & Bright</p>
+            <div id="pet-selection-grid" class="pet-grid">
+                <div class="pet-card" data-pet="Dog"><img src="../img/Dog-Pic.webp" class="pet-icon"><h3>Dog</h3></div>
+                <div class="pet-card" data-pet="Cat"><img src="../img/Cat-Pic.jpeg" class="pet-icon"><h3>Cat</h3></div>
+                <div class="pet-card" data-pet="Hamster"><img src="../img/hamster-pic.jpeg" class="pet-icon"><h3>Hamster</h3></div>
+                <div class="pet-card" data-pet="Horse"><img src="../img/horse-pic.jpeg" class="pet-icon"><h3>Horse</h3></div>
+                <div class="pet-card" data-pet="Fish"><img src="../img/fish-pic.jpeg" class="pet-icon"><h3>Fish</h3></div>
             </div>
             
+            <button id="start-btn" class="btn" disabled onclick="window.location.href='cc.html'">Next Step</button>
         </div>
-        
-        <div class="action-area">
-            <button id="start-game-btn" disabled class="start-btn">
-                Select a Pet
-            </button>
-        </div>
-
     </div>
-
     <script src="../script.js"></script>
 </body>
 </html>

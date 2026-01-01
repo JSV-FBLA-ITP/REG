@@ -2,23 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Credits</title>
     <link rel="stylesheet" href="../styles.css">
+    <title>Credits - FBLA Pet</title>
 </head>
-<body class="credits-chunk">
-<nav class="navbar">
-        <ul>
-            <li class="creditbuttons"><a href="index.html">Home</a></li>
-            <li class="creditbuttons"><a href="credits.html">Credits</a></li>
-        </ul>
-    </nav>
-    
-<h1 class="credit-title">Credits</h1> <br>   
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <ul><li><a href="index.html">Home</a></li></ul>
+            <button id="theme-toggle" class="btn" onclick="toggleTheme()" style="padding: 6px 12px;">🌙 Dark Mode</button>
+        </nav>
 
-    <p class="Names">Vikyath Chatrathi</p>
-    <p class="Names">Jai Mokashi</p>
-    <p class="Names">Shreyas Gasireddy</p>
-
+        <div class="main-card">
+            <h1>Documentation & Credits</h1>
+            <div style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <h3>Technical Details</h3>
+                <p>This program uses <strong>Regex Validation</strong> to ensure user input is secure and formatted correctly. <strong>Local Storage</strong> allows the user's progress and Dark Mode preferences to persist across sessions.</p>
+                
+                <h3>Cost of Care System</h3>
+                <p>Designed to fulfill the FBLA 2025 topic, the in-game currency simulates the financial burden of pet ownership, requiring a balance between earning funds and spending on health/happiness.</p>
+                
+                <h3>Attribution</h3>
+                <ul style="color: var(--text-muted);">
+                    <li>Icons: System Emojis</li>
+                    <li>Fonts: Google Fonts (Inter)</li>
+                    <li>Images: User provided assets</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="../script.js"></script>
 </body>
 </html>
