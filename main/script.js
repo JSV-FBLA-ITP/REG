@@ -56,7 +56,7 @@ window.finalizePet = function() {
 };
 
 function initGame() {
-    if (!petData) return window.location.href = 'index.html';
+    if (!petData) return window.location.href = '../../index.html';
     updateUI();
     setInterval(() => {
         const mult = petData.personality === 'energetic' ? 1.5 : 0.8;
@@ -82,17 +82,36 @@ function updateUI() {
 }
 
 window.handleAction = function(action) {
-    if (action === 'feed' && petData.stats.money >= 25) {
-        petData.stats.hunger = Math.min(100, petData.stats.hunger + 30);
-        petData.stats.money -= 25;
-        addLog("Pet Food", 25);
-    } else if (action === 'play' && petData.stats.energy >= 20) {
-        petData.stats.happy = Math.min(100, petData.stats.happy + 25);
-        petData.stats.energy -= 20;
-        petData.stats.money -= 10;
-        addLog("Toys", 10);
+    if (action === 'feed') {
+        if (petData.stats.money >= 25) {
+            petData.stats.hunger = Math.min(100, petData.stats.hunger + 30);
+            petData.stats.money -= 25;
+            addLog("Pet Food", 25);
+        } else {
+            alert("Not enough money for food!");
+        }
+    } else if (action === 'play') {
+        if (petData.stats.energy >= 20) {
+            petData.stats.happy = Math.min(100, petData.stats.happy + 25);
+            petData.stats.energy -= 20;
+            petData.stats.money -= 10;
+            addLog("Toys/Activities", 10);
+        } else {
+            alert("Your pet is too tired to play!");
+        }
+    } else if (action === 'sleep') {
+        // Logic: Sleep restores all energy but reduces hunger slightly (waking up hungry)
+        if (petData.stats.energy < 100) {
+            petData.stats.energy = 100;
+            petData.stats.hunger = Math.max(0, petData.stats.hunger - 10);
+            addLog("Rest & Recovery", 0);
+            alert(`${petData.name} is fully rested!`);
+        } else {
+            alert(`${petData.name} isn't tired yet.`);
+        }
     }
-    save(); updateUI();
+    save(); 
+    updateUI();
 };
 
 window.earnMoney = function() {

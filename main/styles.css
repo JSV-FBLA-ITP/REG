@@ -3,10 +3,10 @@
     --card-bg: #ffffff;
     --text-main: #1c1e21;
     --text-muted: #65676b;
-    --accent: #4f46e5;
+    --acustomizeent: #4f46e5;
     --nav-bg: #ffffff;
     --border: #dddfe2;
-    --success: #00a400;
+    --sucustomizeess: #00a400;
 }
 
 [data-theme="dark"] {
@@ -14,7 +14,7 @@
     --card-bg: #242526;
     --text-main: #e4e6eb;
     --text-muted: #b0b3b8;
-    --accent: #818cf8;
+    --acustomizeent: #818cf8;
     --nav-bg: #242526;
     --border: #3e4042;
 }
@@ -62,7 +62,7 @@ body {
     padding: 12px 24px;
     border-radius: 8px;
     border: none;
-    background: var(--accent);
+    background: var(--acustomizeent);
     color: white;
     font-weight: 700;
     cursor: pointer;
@@ -100,7 +100,7 @@ body {
     transition: all 0.2s ease;
 }
 
-.pet-card.selected { border-color: var(--accent); background: var(--card-bg); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.pet-card.selected { border-color: var(--acustomizeent); background: var(--card-bg); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 .pet-icon { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; }
 
 /* --- GAME UI --- */
@@ -113,7 +113,7 @@ body {
 
 .circle-progress {
     width: 90px; height: 90px; border-radius: 50%;
-    background: conic-gradient(var(--accent) calc(var(--percent) * 1%), var(--border) 0);
+    background: conic-gradient(var(--acustomizeent) calc(var(--percent) * 1%), var(--border) 0);
     display: flex; align-items: center; justify-content: center; position: relative;
 }
 
