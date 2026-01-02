@@ -100,7 +100,6 @@ window.handleAction = function(action) {
             alert("Your pet is too tired to play!");
         }
     } else if (action === 'sleep') {
-        // Logic: Sleep restores all energy but reduces hunger slightly (waking up hungry)
         if (petData.stats.energy < 100) {
             petData.stats.energy = 100;
             petData.stats.hunger = Math.max(0, petData.stats.hunger - 10);
