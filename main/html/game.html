@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles.css">
     <title>Game - FBLA Pet</title>
 </head>
@@ -13,33 +14,61 @@
         </nav>
 
         <div class="main-card">
-            <div style="background: var(--bg-color); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; font-size: 4rem;">🐾</div>
-            
-            <div class="stats-row">
-                <div class="stat-item"><div id="hunger-circle" class="circle-progress"><span id="hunger-val">0%</span></div><p>Hunger</p></div>
-                <div class="stat-item"><div id="happy-circle" class="circle-progress"><span id="happy-val">0%</span></div><p>Happiness</p></div>
-                <div class="stat-item"><div id="energy-circle" class="circle-progress"><span id="energy-val">0%</span></div><p>Energy</p></div>
-            </div>
+            <div id="game-ui">
+                <div style="background: var(--bg-color); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; font-size: 4rem;">🐾</div>
+                
+                <div class="stats-row">
+                    <div class="stat-item"><div id="hunger-circle" class="circle-progress"><span id="hunger-val">0%</span></div><p>Hunger</p></div>
+                    <div class="stat-item"><div id="happy-circle" class="circle-progress"><span id="happy-val">0%</span></div><p>Happiness</p></div>
+                    <div class="stat-item"><div id="energy-circle" class="circle-progress"><span id="energy-val">0%</span></div><p>Energy</p></div>
+                </div>
 
-            <div style="margin: 2rem 0;">
-                <h2 style="margin: 0;">Bank: $<span id="money-display">0</span></h2>
-                <p style="color: var(--text-muted); font-size: 0.8rem;">Care for your pet to keep them happy!</p>
-            </div>
+                <div style="margin: 2rem 0;">
+                    <h2 style="margin: 0;">Bank: $<span id="money-display">0</span></h2>
+                </div>
 
-            <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;">
-                <button class="btn" onclick="handleAction('feed')">Feed ($25)</button>
-                <button class="btn" onclick="handleAction('play')">Play ($10)</button>
-                <button class="btn" style="background: #65676b;" onclick="handleAction('sleep')">Sleep</button>
-            </div>
-            
-            <button class="btn" style="background: var(--sucustomizeess); width: 100%; max-width: 300px;" onclick="earnMoney()">Perform Chores (+$60)</button>
+                <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;">
+                    <button class="btn" onclick="handleAction('feed')">Feed ($25)</button>
+                    <button class="btn" onclick="handleAction('play')">Play ($10)</button>
+                    <button class="btn" style="background: #65676b;" onclick="handleAction('sleep')">Sleep</button>
+                </div>
+                
+                <button class="btn" style="background: var(--sucustomizeess); width: 100%; max-width: 300px; margin-bottom: 10px;" onclick="earnMoney()">Perform Chores (+$60)</button>
+                
+                <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;">
+                    <button class="btn" style="background: #9b59b6; width: 100%; max-width: 300px;" onclick="shop_toggleWindow()">Open Power-Up Shop</button>
+                </div>
 
-            <div class="expense-list">
-                <h4 style="margin-top:0;">Recent Activity</h4>
-                <ul id="expense-list" style="list-style: none; padding: 0;"></ul>
+                <div class="expense-list">
+                    <h4 style="margin-top:0;">Recent Activity</h4>
+                    <ul id="expense-list" style="list-style: none; padding: 0;"></ul>
+                </div>
             </div>
         </div>
     </div>
+
+    <div id="shop_powerup_modal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-top:0;">Power-Up Shop</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">Max 3 per stat (-10% drain each)</p>
+            <div class="shop-grid">
+                <div class="shop-item">
+                    <div><p>🍲 Food Saver</p><small id="shop_count_hunger">3 left</small></div>
+                    <button onclick="shop_purchaseUpgrade('hunger')" class="btn shop-buy-btn">$300</button>
+                </div>
+                <div class="shop-item">
+                    <div><p>😊 Happy Boost</p><small id="shop_count_happy">3 left</small></div>
+                    <button onclick="shop_purchaseUpgrade('happy')" class="btn shop-buy-btn">$300</button>
+                </div>
+                <div class="shop-item">
+                    <div><p>⚡ Energy Cell</p><small id="shop_count_energy">3 left</small></div>
+                    <button onclick="shop_purchaseUpgrade('energy')" class="btn shop-buy-btn">$300</button>
+                </div>
+            </div>
+            <button onclick="shop_toggleWindow()" class="close-modal-btn">Close Window</button>
+        </div>
+    </div>
+
     <script src="../script.js"></script>
 </body>
 </html>
