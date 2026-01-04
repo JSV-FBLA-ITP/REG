@@ -4,7 +4,7 @@ const HF_TOKEN = "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"; // Replace with your a
 async function generatePetImage() {
     const promptInput = document.getElementById("ai-prompt");
     const resultDiv = document.getElementById("ai-result-display");
-    const petType = localStorage.getItem('myPetType') || "Pet";
+    const petType = localStorage.getItem('myPetData') || "Pet";
     
     const userPrompt = promptInput.value.trim();
     if (!userPrompt) {
@@ -13,7 +13,7 @@ async function generatePetImage() {
     }
 
     // Combining user input with the selected pet type for better results
-    const fullPrompt = `A high-quality, cute professional photo of a ${petType}, ${userPrompt}, cinematic lighting highly detailed`;
+    const fullPrompt = `A high-quality, cute professional photo of a ${petType}, ${userPrompt}, cinematic lighting highly detailed,`;
 
     // Show Loading State
     resultDiv.innerHTML = `
