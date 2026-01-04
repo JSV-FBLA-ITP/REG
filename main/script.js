@@ -63,7 +63,12 @@ function initGame() {
     if (!petData) return;
     if (!petData.shop_multipliers) petData.shop_multipliers = { hunger: 1.0, happy: 1.0, energy: 1.0 };
     if (!petData.shop_upgrades) petData.shop_upgrades = { hunger: 0, happy: 0, energy: 0 };
-
+    
+    imgURL=localStorage.setItem('petImage', JSON.stringify(petData));
+    
+    document.getElementById('petImg').innerHTML = `
+    <img src="${imgURL}" alt="Generated Pet" id="final-pet-image">
+    `;
     updateUI();
     setInterval(() => {
         const mult = petData.personality === 'energetic' ? 5 : 3;
@@ -78,6 +83,7 @@ function updateUI() {
     if(!petData) return;
     document.getElementById('pet-name-display').textContent = petData.name;
     document.getElementById('money-display').textContent = petData.stats.money;
+    
 
     ['hunger', 'happy', 'energy'].forEach(s => {
         const v = Math.round(petData.stats[s]);

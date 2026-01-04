@@ -1,10 +1,10 @@
-// imageGeneration.js
-const HF_TOKEN = "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"; // Replace with your actual token
+
+const HF_TOKEN = "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"; 
 
 async function generatePetImage() {
     const promptInput = document.getElementById("ai-prompt");
     const resultDiv = document.getElementById("ai-result-display");
-    const petType = localStorage.getItem('myPetData') || "Pet";
+    const petType = localStorage.getItem('tempPetType') || "Pet";
     
     const userPrompt = promptInput.value.trim();
     if (!userPrompt) {
@@ -46,6 +46,8 @@ async function generatePetImage() {
 
         const blob = await response.blob();
         const imgURL = URL.createObjectURL(blob);
+        localStorage.setItem('petImage', JSON.stringify(imgURL));
+        window.location.href = 'game.html';
 
         resultDiv.innerHTML = `
             <div class="generated-image-container">
