@@ -1,4 +1,3 @@
-
 const HF_TOKEN = "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"; 
 
 async function generatePetImage() {
@@ -12,10 +11,8 @@ async function generatePetImage() {
         return;
     }
 
-    // Combining user input with the selected pet type for better results
     const fullPrompt = `A high-quality, cute professional photo of a single ${petType}, ${userPrompt}, cinematic lighting highly detailed,`;
 
-    // Show Loading State
     resultDiv.innerHTML = `
         <div class="loading-container">
             <p>✨ Magic in progress... Generating your ${petType}...</p>
@@ -45,19 +42,25 @@ async function generatePetImage() {
         if (!response.ok) throw new Error("AI is currently busy. Please try again in a moment.");
 
         const blob = await response.blob();
-        const imgURL = URL.createObjectURL(blob);
-        console.log(imgURL)
-        localStorage.setItem('petImage', JSON.stringify(imgURL));
-
         
+        // Convert the image to a Base64 string so it survives page navigation
+        const reader = new FileReader();
+        reader.readAsDataURL(blob); 
         
+        reader.onloadend = function() {
+            const base64data = reader.result;
+            
+            // Save the raw data string to localStorage
+            localStorage.setItem('petImage', base64data);
 
-        resultDiv.innerHTML = `
-            <div class="generated-image-container">
-                <img src="${imgURL}" alt="Generated Pet" id="final-pet-image">
-                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">AI Visualization Complete!</p>
-            </div>
-        `;
+            resultDiv.innerHTML = `
+                <div class="generated-image-container">
+                    <img src="${base64data}" alt="Generated Pet" id="final-pet-image">
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">AI Visualization Complete!</p>
+                </div>
+            `;
+        };
+
     } catch (error) {
         resultDiv.innerHTML = `<p style="color: #e74c3c;">Error: ${error.message}</p>`;
     }

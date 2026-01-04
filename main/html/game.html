@@ -13,35 +13,49 @@
             <button id="theme-toggle" class="btn" onclick="toggleTheme()" style="padding: 6px 12px;">🌙 Dark Mode</button>
         </nav>
 
-        <div class="main-card">
-            <div id="game-ui">
-                <div style="background: var(--bg-color); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; font-size: 4rem;" id="petImg">🐾</div>
+        <div class="main-card" style="max-width: 900px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; align-items: flex-start;">
                 
-                <div class="stats-row">
-                    <div class="stat-item"><div id="hunger-circle" class="circle-progress"><span id="hunger-val">0%</span></div><p>Hunger</p></div>
-                    <div class="stat-item"><div id="happy-circle" class="circle-progress"><span id="happy-val">0%</span></div><p>Happiness</p></div>
-                    <div class="stat-item"><div id="energy-circle" class="circle-progress"><span id="energy-val">0%</span></div><p>Energy</p></div>
+                <div style="flex: 1; min-width: 320px;">
+                    <div id="petImg" style="background: var(--bg-color); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; font-size: 4rem; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid var(--border);">
+                        🐾
+                    </div>
+                    
+                    <div class="expense-list" style="margin: 0; max-width: none; width: 100%;">
+                        <h4 style="margin-top:0;">Recent Activity</h4>
+                        <ul id="expense-list" style="list-style: none; padding: 0;"></ul>
+                    </div>
                 </div>
 
-                <div style="margin: 2rem 0;">
-                    <h2 style="margin: 0;">Bank: $<span id="money-display">0</span></h2>
-                </div>
+                <div style="flex: 1; min-width: 320px;">
+                    <div style="margin-bottom: 2rem; background: var(--bg-color); padding: 10px; border-radius: 12px;">
+                        <h2 style="margin: 0;">Bank: $<span id="money-display">0</span></h2>
+                    </div>
 
-                <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;">
-                    <button class="btn" onclick="handleAction('feed')">Feed ($25)</button>
-                    <button class="btn" onclick="handleAction('play')">Play ($10)</button>
-                    <button class="btn" style="background: #65676b;" onclick="handleAction('sleep')">Sleep</button>
-                </div>
-                
-                <button class="btn" style="background: var(--sucustomizeess); width: 100%; max-width: 300px; margin-bottom: 10px;" onclick="earnMoney()">Perform Chores (+$60)</button>
-                
-                <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;">
-                    <button class="btn" style="background: #9b59b6; width: 100%; max-width: 300px;" onclick="shop_toggleWindow()">Open Power-Up Shop</button>
-                </div>
+                    <div class="stats-row" style="margin-top: 0; gap: 15px; justify-content: space-around;">
+                        <div class="stat-item">
+                            <div id="hunger-circle" class="circle-progress"><span id="hunger-val">0%</span></div>
+                            <p class="words">Hunger</p>
+                        </div>
+                        <div class="stat-item">
+                            <div id="happy-circle" class="circle-progress"><span id="happy-val">0%</span></div>
+                            <p class="words">Happiness</p>
+                        </div>
+                        <div class="stat-item">
+                            <div id="energy-circle" class="circle-progress"><span id="energy-val">0%</span></div>
+                            <p class="words">Energy</p>
+                        </div>
+                    </div>
 
-                <div class="expense-list">
-                    <h4 style="margin-top:0;">Recent Activity</h4>
-                    <ul id="expense-list" style="list-style: none; padding: 0;"></ul>
+                    <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;">
+                        <button class="btn" style="flex: 1;" onclick="handleAction('feed')">Feed ($25)</button>
+                        <button class="btn" style="flex: 1;" onclick="handleAction('play')">Play ($10)</button>
+                        <button class="btn" style="background: #65676b; flex: 1;" onclick="handleAction('sleep')">Sleep</button>
+                    </div>
+                    
+                    <button class="btn" style="background: var(--sucustomizeess); width: 100%; margin-bottom: 10px;" onclick="earnMoney()">Perform Chores (+$60)</button>
+                    
+                    <button class="btn" style="background: #9b59b6; width: 100%;" onclick="shop_toggleWindow()">Open Power-Up Shop</button>
                 </div>
             </div>
         </div>

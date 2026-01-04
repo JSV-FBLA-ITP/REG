@@ -187,3 +187,38 @@ h3 {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+/* --- NEW SEPARATE LAYOUT CLASSES --- */
+/* These do not affect your original code above */
+
+.layout-split-view {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.column-visual {
+    flex: 1;
+    min-width: 320px;
+}
+
+.column-controls {
+    flex: 1;
+    min-width: 320px;
+}
+
+.pet-image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+    .layout-split-view {
+        flex-direction: column;
+        align-items: center;
+    }
+}

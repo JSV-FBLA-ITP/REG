@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname.includes('game.html')) initGame();
 });
 
-/* --- ORIGINAL SELECTION LOGIC --- */
+/* --- SELECTION LOGIC --- */
 function initSelection() {
     const cards = document.querySelectorAll('.pet-card');
     cards.forEach(card => {
@@ -49,7 +49,6 @@ window.finalizePet = function() {
 
     petData = {
         type, name, 
-        //personality: document.getElementById('pet-personality').value,
         stats: { hunger: 100, happy: 100, energy: 100, money: 500 },
         shop_multipliers: { hunger: 1.0, happy: 1.0, energy: 1.0 },
         shop_upgrades: { hunger: 0, happy: 0, energy: 0 }
@@ -65,14 +64,15 @@ function initGame() {
     if (!petData.shop_multipliers) petData.shop_multipliers = { hunger: 1.0, happy: 1.0, energy: 1.0 };
     if (!petData.shop_upgrades) petData.shop_upgrades = { hunger: 0, happy: 0, energy: 0 };
     
-    imgURL=localStorage.getItem('petImage');
+    // Retrieve the Base64 image string from localStorage
+    const imgURL = localStorage.getItem('petImage');
 
-    console.log(imgURL)
+    if (imgURL) {
+        document.getElementById('petImg').innerHTML = `
+            <img src="${imgURL}" alt="Generated Pet" id="final-pet-image" style="max-width: 100%; border-radius: 15px;">
+        `;
+    }
     
-    document.getElementById('petImg').innerHTML = `
-    <img src="${imgURL}" alt="Generated Pet" id="final-pet-image">
-    `;
-
     updateUI();
     setInterval(() => {
         const mult = petData.personality === 'energetic' ? 5 : 3;
@@ -88,7 +88,6 @@ function updateUI() {
     document.getElementById('pet-name-display').textContent = petData.name;
     document.getElementById('money-display').textContent = petData.stats.money;
     
-
     ['hunger', 'happy', 'energy'].forEach(s => {
         const v = Math.round(petData.stats[s]);
         const el = document.getElementById(`${s}-circle`);
@@ -97,7 +96,6 @@ function updateUI() {
             document.getElementById(`${s}-val`).textContent = v + '%';
         }
 
-        
         const countEl = document.getElementById(`shop_count_${s}`);
         if(countEl) {
             const count = petData.shop_upgrades[s];
