@@ -66,7 +66,7 @@ function initGame() {
 
     updateUI();
     setInterval(() => {
-        const mult = petData.personality === 'energetic' ? 3 : 1;
+        const mult = petData.personality === 'energetic' ? 5 : 3;
         petData.stats.hunger = Math.max(0, petData.stats.hunger - (mult * petData.shop_multipliers.hunger));
         petData.stats.happy = Math.max(0, petData.stats.happy - (5 * petData.shop_multipliers.happy));
         petData.stats.energy = Math.max(0, petData.stats.energy - (1 * petData.shop_multipliers.energy));
