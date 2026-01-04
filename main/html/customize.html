@@ -12,22 +12,24 @@
             <button id="theme-toggle" class="btn" onclick="toggleTheme()" style="padding: 6px 12px;">🌙 Dark Mode</button>
         </nav>
 
-        <div class="main-card" style="max-width: 500px;">
-            <h2>Personalize Your Pet</h2>
-            <div style="text-align: left; margin-top: 2rem;">
-                <label style="font-weight: 600; font-size: 0.9rem;">What is your pet's name?</label>
-                <input type="text" id="pet-name" placeholder="Buddy" style="width: 100%; padding: 12px; margin: 8px 0 20px 0; border-radius: 8px; border: 1px solid var(--border); box-sizing: border-box;">
-                
-                <label style="font-weight: 600; font-size: 0.9rem;">Select Personality</label>
-                <select id="pet-personality" style="width: 100%; padding: 12px; margin: 8px 0 25px 0; border-radius: 8px; border: 1px solid var(--border); box-sizing: border-box;">
-                    <option value="chilled">Chilled (Stats drop slower)</option>
-                    <option value="energetic">Energetic (Needs more attention)</option>
-                </select>
-                
-                <button onclick="finalizePet()" class="btn" style="width: 100%;">Finalize Adoption</button>
-            </div>
+        <div class="main-card">
+    <h2>Customize your </h2>
+    
+    <div class="ai-section" style="margin-bottom: 2rem; border: 1px dashed #3498db; padding: 15px; border-radius: 10px;">
+        <h3>AI Design Helper</h3>
+        <p style="font-size: 0.9rem;">Describe how your pet looks (e.g., "with a tiny hat" or "golden fur"):</p>
+        <div style="display: flex; gap: 10px;">
+            <input type="text" id="ai-prompt" placeholder="Describe appearance..." style="flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            <button onclick="generatePetImage()" class="btn" style="background: #3498db;">Generate</button>
         </div>
+        <div id="ai-result-display" style="margin-top: 15px; min-height: 50px;"></div>
     </div>
-    <script src="../script.js"></script>
+
+    <input type="text" id="pet-name" placeholder="Enter Pet Name" maxlength="12">
+    <button onclick="finalizePet()" class="btn">Finish & Start</button>
+</div>
+
+<script src="../imageGeneration.js"></script>
+<script src="../script.js"></script>
 </body>
 </html>

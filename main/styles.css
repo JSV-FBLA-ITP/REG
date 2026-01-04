@@ -165,3 +165,25 @@ h3 {
 .shop-item small { font-size: 0.75rem; color: var(--text-muted); font-weight: 700; }
 .shop-buy-btn { padding: 8px 14px !important; font-size: 0.85rem !important; }
 .close-modal-btn { margin-top: 1rem; background: none; border: none; color: var(--text-muted); cursor: pointer; text-decoration: underline; }
+
+.generated-image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.spinner {
+    width: 30px;
+    height: 30px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    margin: 10px auto;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
