@@ -42,13 +42,14 @@ function initSelection() {
 }
 
 window.finalizePet = function() {
-    const nameInput = document.getElementById('pet-name');
-    const name = nameInput ? nameInput.value.trim() : "";
+    const nameInput = document.getElementById('pet-name').value;
+    const name = nameInput ? nameInput.trim() : "";
     const type = localStorage.getItem('tempPetType');
     if (!/^[a-zA-Z\s]{2,12}$/.test(name)) return alert("Name must be 2-12 letters.");
 
     petData = {
-        type, name, personality: document.getElementById('pet-personality').value,
+        type, name, 
+        //personality: document.getElementById('pet-personality').value,
         stats: { hunger: 100, happy: 100, energy: 100, money: 500 },
         shop_multipliers: { hunger: 1.0, happy: 1.0, energy: 1.0 },
         shop_upgrades: { hunger: 0, happy: 0, energy: 0 }
@@ -64,11 +65,14 @@ function initGame() {
     if (!petData.shop_multipliers) petData.shop_multipliers = { hunger: 1.0, happy: 1.0, energy: 1.0 };
     if (!petData.shop_upgrades) petData.shop_upgrades = { hunger: 0, happy: 0, energy: 0 };
     
-    imgURL=localStorage.setItem('petImage', JSON.stringify(petData));
+    imgURL=localStorage.getItem('petImage');
+
+    console.log(imgURL)
     
     document.getElementById('petImg').innerHTML = `
     <img src="${imgURL}" alt="Generated Pet" id="final-pet-image">
     `;
+
     updateUI();
     setInterval(() => {
         const mult = petData.personality === 'energetic' ? 5 : 3;
@@ -93,7 +97,7 @@ function updateUI() {
             document.getElementById(`${s}-val`).textContent = v + '%';
         }
 
-        // Shop UI Updates for all 3 powerups
+        
         const countEl = document.getElementById(`shop_count_${s}`);
         if(countEl) {
             const count = petData.shop_upgrades[s];

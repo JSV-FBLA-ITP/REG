@@ -13,7 +13,7 @@ async function generatePetImage() {
     }
 
     // Combining user input with the selected pet type for better results
-    const fullPrompt = `A high-quality, cute professional photo of a ${petType}, ${userPrompt}, cinematic lighting highly detailed,`;
+    const fullPrompt = `A high-quality, cute professional photo of a single ${petType}, ${userPrompt}, cinematic lighting highly detailed,`;
 
     // Show Loading State
     resultDiv.innerHTML = `
@@ -46,8 +46,11 @@ async function generatePetImage() {
 
         const blob = await response.blob();
         const imgURL = URL.createObjectURL(blob);
+        console.log(imgURL)
         localStorage.setItem('petImage', JSON.stringify(imgURL));
-        window.location.href = 'game.html';
+
+        
+        
 
         resultDiv.innerHTML = `
             <div class="generated-image-container">
