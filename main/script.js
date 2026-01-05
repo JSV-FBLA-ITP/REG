@@ -80,9 +80,17 @@ function initGame() {
     const imgURL = localStorage.getItem('petImage');
 
     if (imgURL) {
-        document.getElementById('petImg').innerHTML = `
-            <img src="${imgURL}" alt="Generated Pet" id="final-pet-image" style="max-width: 100%; border-radius: 15px;">
-        `;
+        // Insert the generated image inside the existing interactive container
+        // so we don't remove the `#pet-display` element (which has the click handler).
+        const petDisplay = document.getElementById('pet-display');
+        if (petDisplay) {
+            petDisplay.innerHTML = `<img src="${imgURL}" alt="Generated Pet" id="final-pet-image" style="max-width: 100%; border-radius: 15px;">`;
+        } else {
+            const petImg = document.getElementById('petImg');
+            if (petImg) {
+                petImg.insertAdjacentHTML('beforeend', `<img src="${imgURL}" alt="Generated Pet" id="final-pet-image" style="max-width: 100%; border-radius: 15px;">`);
+            }
+        }
     }
     
     updateUI();
@@ -211,12 +219,18 @@ function updatePetEmotion() {
 
     emotionEl.textContent = `${emoji} ${emotion}`;
     
-    // Update pet display emoji with animation
+    // Update pet display emoji with animation — but don't overwrite a generated image.
     if (petDisplayEl) {
         petDisplayEl.style.animation = 'none';
         setTimeout(() => {
             petDisplayEl.style.animation = 'bounce 0.5s ease';
-            petDisplayEl.textContent = petEmoji;
+            // If a final pet image exists, keep it and avoid writing emoji text over it.
+            if (!petDisplayEl.querySelector('#final-pet-image')) {
+                petDisplayEl.textContent = petEmoji;
+            } else {
+                // Store the current emoji as a data attribute for accessibility or future use.
+                petDisplayEl.setAttribute('data-emoji', petEmoji);
+            }
         }, 10);
     }
     
