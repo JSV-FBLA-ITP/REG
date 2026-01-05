@@ -819,52 +819,7 @@ body {
     font-size: 0.9rem;
 }
 
-.shop-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin: 20px 0;
-}
-
-.shop-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 15px 20px;
-    border-radius: 15px;
-    border: 2px solid var(--glass-border);
-    text-align: left;
-}
-
-[data-theme="dark"] .shop-item {
-    background: rgba(0, 0, 0, 0.4);
-    border: 2px solid rgba(255, 255, 255, 0.15);
-}
-
-.shop-item p {
-    margin: 0;
-    font-weight: 700;
-    color: var(--text-white);
-}
-
-.shop-item small {
-    font-size: 0.75rem;
-    color: var(--text-white-muted);
-    font-weight: 600;
-}
-
-.shop-buy-btn {
-    padding: 10px 20px !important;
-    font-size: 0.9rem !important;
-    background: var(--button-bg) !important;
-    color: var(--button-color) !important;
-}
-
-[data-theme="dark"] .shop-buy-btn {
-    background: rgba(255, 255, 255, 0.9) !important;
-    color: #0f0f1e !important;
-}
+/* shop styles removed */
 
 .close-modal-btn {
     margin-top: 1rem;

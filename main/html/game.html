@@ -99,13 +99,12 @@
                     </div>
 
                     <div class="action-buttons">
-                        <button class="action-btn" onclick="openToyShop()">Buy Toys ($20)</button>
-                        <button class="action-btn" onclick="openSupplyShop()">Buy Supplies ($35)</button>
+                        <!-- Toy and Supply shops removed; only Power-Up shop remains -->
                     </div>
                     
                     <button class="action-btn action-btn-success full-width-btn" onclick="earnMoney()">Perform Chores (+$60)</button>
                     
-                    <button class="action-btn action-btn-purple full-width-btn" onclick="shop_toggleWindow()">Open Power-Up Shop</button>
+                    <!-- Power-Up Shop removed -->
 
                     <div class="expense-summary">
                         <h4>Total Expenses: $<span id="total-expenses">0</span></h4>
@@ -116,75 +115,11 @@
         </div>
     </div>
 
-    <div id="shop_powerup_modal" class="modal">
-        <div class="modal-content">
-            <h2>Power-Up Shop</h2>
-            <p>Max 3 per stat (-10% drain each)</p>
-            <div class="shop-grid">
-                <div class="shop-item">
-                    <div><p>🍲 Food Saver</p><small id="shop_count_hunger">3 left</small></div>
-                    <button onclick="shop_purchaseUpgrade('hunger')" class="modern-btn shop-buy-btn">$300</button>
-                </div>
-                <div class="shop-item">
-                    <div><p>😊 Happy Boost</p><small id="shop_count_happy">3 left</small></div>
-                    <button onclick="shop_purchaseUpgrade('happy')" class="modern-btn shop-buy-btn">$300</button>
-                </div>
-                <div class="shop-item">
-                    <div><p>⚡ Energy Cell</p><small id="shop_count_energy">3 left</small></div>
-                    <button onclick="shop_purchaseUpgrade('energy')" class="modern-btn shop-buy-btn">$300</button>
-                </div>
-                <div class="shop-item">
-                    <div><p>💊 Health Boost</p><small id="shop_count_health">3 left</small></div>
-                    <button onclick="shop_purchaseUpgrade('health')" class="modern-btn shop-buy-btn">$300</button>
-                </div>
-            </div>
-            <button onclick="shop_toggleWindow()" class="close-modal-btn">Close Window</button>
-        </div>
-    </div>
+    <!-- Power-Up Shop removed -->
 
-    <div id="toy_shop_modal" class="modal">
-        <div class="modal-content">
-            <h2>Toy Shop</h2>
-            <p>Buy toys to keep your pet happy!</p>
-            <div class="shop-grid">
-                <div class="shop-item">
-                    <div><p>🎾 Tennis Ball</p><small>+5 Happiness</small></div>
-                    <button onclick="buyToy('ball', 20)" class="modern-btn shop-buy-btn">$20</button>
-                </div>
-                <div class="shop-item">
-                    <div><p>🧸 Stuffed Toy</p><small>+8 Happiness</small></div>
-                    <button onclick="buyToy('toy', 30)" class="modern-btn shop-buy-btn">$30</button>
-                </div>
-                <div class="shop-item">
-                    <div><p>🎯 Puzzle Game</p><small>+10 Happiness</small></div>
-                    <button onclick="buyToy('puzzle', 40)" class="modern-btn shop-buy-btn">$40</button>
-                </div>
-            </div>
-            <button onclick="closeToyShop()" class="close-modal-btn">Close Window</button>
-        </div>
-    </div>
+    <!-- Toy shop removed -->
 
-    <div id="supply_shop_modal" class="modal">
-        <div class="modal-content">
-            <h2>Supply Shop</h2>
-            <p>Essential supplies for your pet</p>
-            <div class="shop-grid">
-                <div class="shop-item">
-                    <div><p>🍖 Premium Food</p><small>+10 Hunger</small></div>
-                    <button onclick="buySupply('premiumFood', 35)" class="modern-btn shop-buy-btn">$35</button>
-                </div>
-                <div class="shop-item">
-                    <div><p>🧴 Grooming Kit</p><small>+10 Health</small></div>
-                    <button onclick="buySupply('grooming', 40)" class="modern-btn shop-buy-btn">$40</button>
-                </div>
-                <div class="shop-item">
-                    <div><p>🛏️ Comfy Bed</p><small>+15 Energy</small></div>
-                    <button onclick="buySupply('bed', 50)" class="modern-btn shop-buy-btn">$50</button>
-                </div>
-            </div>
-            <button onclick="closeSupplyShop()" class="close-modal-btn">Close Window</button>
-        </div>
-    </div>
+    <!-- Supply shop removed -->
 
     <script src="../script.js"></script>
     <script src="../imageGeneration.js"></script>

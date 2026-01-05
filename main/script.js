@@ -19,8 +19,120 @@ function updateThemeBtn(theme) {
 }
 
 /* --- DATA STATE --- */
-let petData = JSON.parse(localStorage.getItem('myPetData')) || null;
-let expenseLog = JSON.parse(localStorage.getItem('expenseLog')) || [];
+function _safeParse(key, fallback) {
+    try {
+        const v = localStorage.getItem(key);
+        return v ? JSON.parse(v) : fallback;
+    } catch (e) {
+        console.warn('Failed to parse localStorage key', key, e);
+        return fallback;
+    }
+}
+
+let petData = _safeParse('myPetData', null);
+let expenseLog = _safeParse('expenseLog', []);
+
+// Helper: temporarily disable clickable controls to prevent rapid spamming
+function disableButtonsTemporarily(selector = '.modern-btn, .action-btn', ms = 500) {
+    const els = document.querySelectorAll(selector);
+    if (!els || els.length === 0) return;
+    els.forEach(el => el.disabled = true);
+    setTimeout(() => els.forEach(el => el.disabled = false), ms);
+}
+
+// Error overlay to surface runtime errors on the page (helps when console is inaccessible)
+function showErrorOverlay(msg) {
+    try {
+        let ov = document.getElementById('__error_overlay');
+        if (!ov) {
+            ov = document.createElement('div');
+            ov.id = '__error_overlay';
+            ov.style.position = 'fixed';
+            ov.style.left = '10px';
+            ov.style.top = '10px';
+            ov.style.zIndex = '999999';
+            ov.style.maxWidth = '80%';
+            ov.style.background = 'rgba(200,40,40,0.95)';
+            ov.style.color = '#fff';
+            ov.style.padding = '12px';
+            ov.style.borderRadius = '8px';
+            ov.style.fontFamily = 'monospace';
+            ov.style.fontSize = '13px';
+            ov.style.boxShadow = '0 6px 30px rgba(0,0,0,0.5)';
+            const close = document.createElement('button');
+            close.textContent = '×';
+            close.style.float = 'right';
+            close.style.marginLeft = '8px';
+            close.style.background = 'transparent';
+            close.style.color = '#fff';
+            close.style.border = 'none';
+            close.style.fontSize = '18px';
+            close.style.cursor = 'pointer';
+            close.onclick = () => ov.remove();
+            ov.appendChild(close);
+            const content = document.createElement('div');
+            content.id = '__error_overlay_msg';
+            ov.appendChild(content);
+            document.body && document.body.appendChild(ov);
+        }
+        const content = document.getElementById('__error_overlay_msg');
+        if (content) content.textContent = msg;
+    } catch (e) {
+        // ignore
+    }
+}
+
+window.addEventListener('error', function (ev) {
+    try {
+        const msg = `${ev.message} (${ev.filename}:${ev.lineno}:${ev.colno})`;
+        showErrorOverlay(msg);
+        console.error(ev.error || ev.message);
+    } catch (e) {}
+});
+
+window.addEventListener('unhandledrejection', function (ev) {
+    try {
+        const reason = ev.reason && ev.reason.stack ? ev.reason.stack : String(ev.reason);
+        showErrorOverlay('Unhandled Rejection: ' + reason);
+        console.error('Unhandled Rejection', ev.reason);
+    } catch (e) {}
+});
+
+// Diminishing returns: track recent clicks per stat and scale boosts
+const __recentClicks = {};
+function recordClickForStat(stat, windowMs = 6000) {
+    __recentClicks[stat] = (__recentClicks[stat] || 0) + 1;
+    setTimeout(() => {
+        __recentClicks[stat] = Math.max(0, (__recentClicks[stat] || 0) - 1);
+    }, windowMs);
+}
+
+function getDiminishedBoost(stat, baseBoost) {
+    if (!petData || !petData.stats) return 0;
+    const current = Math.max(0, Math.min(100, petData.stats[stat] || 0));
+    const remainingRatio = Math.max(0, 100 - current) / 100; // 1 -> fully empty, 0 -> full
+    const clicks = __recentClicks[stat] || 0;
+    const clickPenalty = 1 / (1 + clicks * 0.6); // more recent clicks reduce the effect
+    const raw = baseBoost * remainingRatio * clickPenalty;
+    return Math.max(0, Math.round(raw));
+}
+
+// shop lock removed (no shop purchases)
+
+// Custom fixed boost mapping for play (happy) and feed (hunger)
+function computeRangeBoost(stat) {
+    if (!petData || !petData.stats) return 0;
+    const current = Math.max(0, Math.min(100, Math.round(petData.stats[stat] || 0)));
+    // Ranges:
+    // <50 => +5
+    // 50-60 => +4
+    // 61-80 => +3
+    // 81-100 => +2
+    if (current < 50) return 5;
+    if (current <= 60) return 4;
+    if (current <= 80) return 3;
+    return 2;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
@@ -53,8 +165,6 @@ window.finalizePet = function() {
     petData = {
         type, name, 
         stats: { hunger: 100, happy: 100, energy: 100, health: 100, money: 500 },
-        shop_multipliers: { hunger: 1.0, happy: 1.0, energy: 1.0, health: 1.0 },
-        shop_upgrades: { hunger: 0, happy: 0, energy: 0, health: 0 },
         totalExpenses: 0,
         savingsGoal: 500,
         savingsCurrent: 0,
@@ -69,8 +179,6 @@ window.finalizePet = function() {
 /* --- GAME LOOP & SHOP LOGIC --- */
 function initGame() {
     if (!petData) return;
-    if (!petData.shop_multipliers) petData.shop_multipliers = { hunger: 1.0, happy: 1.0, energy: 1.0, health: 1.0 };
-    if (!petData.shop_upgrades) petData.shop_upgrades = { hunger: 0, happy: 0, energy: 0, health: 0 };
     if (!petData.stats.health) petData.stats.health = 100;
     if (!petData.totalExpenses) petData.totalExpenses = 0;
     if (!petData.savingsGoal) petData.savingsGoal = 500;
@@ -97,82 +205,66 @@ function initGame() {
     updatePetEmotion();
     setInterval(() => {
         const mult = petData.personality === 'energetic' ? 5 : 3;
-        petData.stats.hunger = Math.max(0, petData.stats.hunger - (mult * petData.shop_multipliers.hunger));
-        petData.stats.happy = Math.max(0, petData.stats.happy - (5 * petData.shop_multipliers.happy));
-        petData.stats.energy = Math.max(0, petData.stats.energy - (1 * petData.shop_multipliers.energy));
+        petData.stats.hunger = Math.max(0, petData.stats.hunger - mult);
+        petData.stats.happy = Math.max(0, petData.stats.happy - 5);
+        petData.stats.energy = Math.max(0, petData.stats.energy - 1);
         // Health decreases if other stats are low
         if (petData.stats.hunger < 30 || petData.stats.happy < 30) {
-            petData.stats.health = Math.max(0, petData.stats.health - (2 * petData.shop_multipliers.health));
+            petData.stats.health = Math.max(0, petData.stats.health - 2);
         }
         save(); updateUI(); updatePetEmotion();
     }, 2000);
 }
 
+// shop UI removed
+
 function updateUI() {
-    if(!petData) return;
-    document.getElementById('pet-name-display').textContent = petData.name;
-    document.getElementById('money-display').textContent = petData.stats.money;
-    
+    if (!petData) return;
+    const petNameEl = document.getElementById('pet-name-display');
+    if (petNameEl) petNameEl.textContent = petData.name || '';
+    const moneyEl = document.getElementById('money-display');
+    if (moneyEl) moneyEl.textContent = (petData.stats && petData.stats.money) ? petData.stats.money : 0;
+
     ['hunger', 'happy', 'energy', 'health'].forEach(s => {
-        const v = Math.round(petData.stats[s]);
+        const v = Math.round((petData.stats && petData.stats[s]) || 0);
         const barEl = document.getElementById(`${s}-bar`);
         const valEl = document.getElementById(`${s}-val`);
-        
-        if(barEl) {
-            // Animate bar width change
+
+        if (barEl) {
             barEl.style.transition = 'width 0.5s ease, background-color 0.3s ease';
             barEl.style.width = v + '%';
-            
-            // Change color based on value
-            if (v < 30) {
-                barEl.style.backgroundColor = '#e74c3c'; // Red
-            } else if (v < 50) {
-                barEl.style.backgroundColor = '#f39c12'; // Orange
-            } else if (v < 70) {
-                barEl.style.backgroundColor = '#f1c40f'; // Yellow
-            } else {
-                barEl.style.backgroundColor = '#2ecc71'; // Green
-            }
-        }
-        
-        if(valEl) {
-            valEl.textContent = v + '%';
+            if (v < 30) barEl.style.backgroundColor = '#e74c3c';
+            else if (v < 50) barEl.style.backgroundColor = '#f39c12';
+            else if (v < 70) barEl.style.backgroundColor = '#f1c40f';
+            else barEl.style.backgroundColor = '#2ecc71';
         }
 
-        const countEl = document.getElementById(`shop_count_${s}`);
-        if(countEl) {
-            const count = petData.shop_upgrades[s] || 0;
-            const btn = countEl.parentElement.nextElementSibling;
-            if (count >= 3) {
-                countEl.textContent = "MAXED OUT";
-                if(btn) btn.disabled = true;
-            } else {
-                countEl.textContent = `${3 - count} left`;
-            }
-        }
+        if (valEl) valEl.textContent = v + '%';
+
+        // shop counts removed
     });
 
-    // Update expense summary
     const totalExpensesEl = document.getElementById('total-expenses');
-    if (totalExpensesEl) {
-        totalExpensesEl.textContent = petData.totalExpenses || 0;
-    }
+    if (totalExpensesEl) totalExpensesEl.textContent = petData.totalExpenses || 0;
 
-    // Update savings
     const savingsGoalEl = document.getElementById('savings-goal');
     const savingsCurrentEl = document.getElementById('savings-current');
     if (savingsGoalEl) savingsGoalEl.textContent = petData.savingsGoal || 500;
     if (savingsCurrentEl) {
-        petData.savingsCurrent = Math.max(0, petData.stats.money - (petData.totalExpenses || 0));
+        petData.savingsCurrent = Math.max(0, (petData.stats && petData.stats.money) ? petData.stats.money - (petData.totalExpenses || 0) : 0);
         savingsCurrentEl.textContent = petData.savingsCurrent;
     }
 
-    document.getElementById('expense-list').innerHTML = expenseLog.slice(-4).reverse()
-        .map(e => `<li>${e.time}: ${e.item} (-$${e.cost})</li>`).join('');
+    const expenseListEl = document.getElementById('expense-list');
+    if (expenseListEl) {
+        expenseListEl.innerHTML = expenseLog.slice(-4).reverse()
+            .map(e => `<li>${e.time}: ${e.item} (-$${e.cost})</li>`).join('');
+    }
 }
 
 function updatePetEmotion() {
     if(!petData) return;
+    const now = Date.now();
     const emotionEl = document.getElementById('emotion-text');
     const petDisplayEl = document.getElementById('pet-display');
     if(!emotionEl) return;
@@ -366,41 +458,34 @@ window.petLeave = function() {
     }
 };
 
-window.shop_toggleWindow = function() {
-    const modal = document.getElementById('shop_powerup_modal');
-    modal.style.display = (modal.style.display === "flex") ? "none" : "flex";
-};
+// shop_toggleWindow removed (power-up shop removed)
 
-window.shop_purchaseUpgrade = function(type) {
-    if (!petData.shop_upgrades[type]) petData.shop_upgrades[type] = 0;
-    if (petData.shop_upgrades[type] < 3 && petData.stats.money >= 300) {
-        petData.stats.money -= 300;
-        petData.shop_upgrades[type]++;
-        if (!petData.shop_multipliers[type]) petData.shop_multipliers[type] = 1.0;
-        petData.shop_multipliers[type] *= 0.9;
-        addLog(`${type.toUpperCase()} Upgrade`, 300);
-        const messages = ['Upgrade complete!', 'Nice upgrade!', 'Got it!', 'Upgraded!'];
-        showActionFeedback('⚡ ' + messages[Math.floor(Math.random() * messages.length)], 'positive');
-        save(); updateUI();
-    } else { 
-        const messages = ['Can\'t buy that', 'Not enough money', 'Too expensive', 'Can\'t afford it'];
-        showActionFeedback('❌ ' + messages[Math.floor(Math.random() * messages.length)], 'negative');
-    }
-};
+// power-up shop removed
 
 window.handleAction = function(action) {
+    disableButtonsTemporarily();
     let feedback = '';
     let feedbackType = 'positive';
     
     if (action === 'feed' && petData.stats.money >= 25) {
-        petData.stats.hunger = Math.min(100, petData.stats.hunger + 7);
+        // Use custom fixed boost mapping for hunger
+        const boost = computeRangeBoost('hunger');
+        if (boost > 0) {
+            petData.stats.hunger = Math.min(100, petData.stats.hunger + boost);
+            recordClickForStat('hunger');
+        }
         petData.stats.money -= 25;
         addLog("Pet Food", 25);
         const messages = ['Nom nom nom!', 'So tasty!', 'Yummy!', 'Mmm, good!'];
         feedback = '🍽️ ' + messages[Math.floor(Math.random() * messages.length)];
         showActionFeedback(feedback, 'positive');
     } else if (action === 'play' && petData.stats.energy >= 20) {
-        petData.stats.happy = Math.min(100, petData.stats.happy + 5);
+        // Use custom fixed boost mapping for happiness when playing
+        const boost = computeRangeBoost('happy');
+        if (boost > 0) {
+            petData.stats.happy = Math.min(100, petData.stats.happy + boost);
+            recordClickForStat('happy');
+        }
         petData.stats.energy -= 20;
         petData.stats.money -= 10;
         addLog("Toys", 10);
@@ -414,22 +499,30 @@ window.handleAction = function(action) {
         feedback = '😴 ' + messages[Math.floor(Math.random() * messages.length)];
         showActionFeedback(feedback, 'positive');
     } else if (action === 'clean' && petData.stats.money >= 15) {
-        petData.stats.health = Math.min(100, petData.stats.health + 5);
-        petData.stats.happy = Math.min(100, petData.stats.happy + 3);
+        const healthBoost = getDiminishedBoost('health', 5);
+        const happyBoost = getDiminishedBoost('happy', 3);
+        if (healthBoost > 0) petData.stats.health = Math.min(100, petData.stats.health + healthBoost);
+        if (happyBoost > 0) petData.stats.happy = Math.min(100, petData.stats.happy + happyBoost);
+        recordClickForStat('health');
+        recordClickForStat('happy');
         petData.stats.money -= 15;
         addLog("Cleaning Supplies", 15);
         const messages = ['So fresh!', 'Feeling clean!', 'Much better', 'Ahh, nice!'];
         feedback = '✨ ' + messages[Math.floor(Math.random() * messages.length)];
         showActionFeedback(feedback, 'positive');
     } else if (action === 'healthCheck' && petData.stats.money >= 30) {
-        petData.stats.health = Math.min(100, petData.stats.health + 10);
+        const boost = getDiminishedBoost('health', 10);
+        if (boost > 0) petData.stats.health = Math.min(100, petData.stats.health + boost);
+        recordClickForStat('health');
         petData.stats.money -= 30;
         addLog("Health Check", 30);
         const messages = ['All good!', 'Feeling great!', 'Healthy as can be!', 'Doing well!'];
         feedback = '💊 ' + messages[Math.floor(Math.random() * messages.length)];
         showActionFeedback(feedback, 'positive');
     } else if (action === 'vet' && petData.stats.money >= 100) {
-        petData.stats.health = Math.min(100, petData.stats.health + 30);
+        const boost = getDiminishedBoost('health', 30);
+        if (boost > 0) petData.stats.health = Math.min(100, petData.stats.health + boost);
+        recordClickForStat('health');
         petData.stats.money -= 100;
         addLog("Vet Visit", 100);
         const messages = ['Doctor says I\'m great!', 'All fixed up!', 'Feeling amazing!', 'Back to 100%!'];
@@ -460,6 +553,7 @@ window.handleAction = function(action) {
 };
 
 window.earnMoney = function() {
+    disableButtonsTemporarily();
     if (petData.stats.energy >= 25) {
         petData.stats.money += 60;
         petData.stats.energy -= 25;
@@ -473,103 +567,31 @@ window.earnMoney = function() {
     }
 };
 
-window.openToyShop = function() {
-    document.getElementById('toy_shop_modal').style.display = 'flex';
-};
-
-window.closeToyShop = function() {
-    document.getElementById('toy_shop_modal').style.display = 'none';
-};
-
-window.buyToy = function(toyType, cost) {
-    if (petData.stats.money >= cost) {
-        petData.stats.money -= cost;
-        let happinessBoost = 0;
-        let itemName = '';
-        let messages = [];
-        
-        if (toyType === 'ball') {
-            happinessBoost = 5;
-            itemName = 'Tennis Ball';
-            messages = ['Bouncy!', 'Love this ball!', 'So fun!', 'My favorite!'];
-        } else if (toyType === 'toy') {
-            happinessBoost = 8;
-            itemName = 'Stuffed Toy';
-            messages = ['New friend!', 'So cuddly!', 'Love it!', 'Best toy ever!'];
-        } else if (toyType === 'puzzle') {
-            happinessBoost = 10;
-            itemName = 'Puzzle Game';
-            messages = ['This is awesome!', 'So cool!', 'Love puzzles!', 'Amazing!'];
-        }
-        
-        petData.stats.happy = Math.min(100, petData.stats.happy + happinessBoost);
-        addLog(itemName, cost);
-        const msg = messages[Math.floor(Math.random() * messages.length)];
-        showActionFeedback(`🎁 ${msg}`, 'positive');
-        
-        animatePet('jump');
-        makePetSpeak('New toy!', 2000);
-        
-        save(); updateUI(); updatePetEmotion();
-    } else {
-        const messages = ['Too broke for that', 'Can\'t afford it', 'Need more cash', 'Not enough money'];
-        showActionFeedback('❌ ' + messages[Math.floor(Math.random() * messages.length)], 'negative');
-    }
-};
-
-window.openSupplyShop = function() {
-    document.getElementById('supply_shop_modal').style.display = 'flex';
-};
-
-window.closeSupplyShop = function() {
-    document.getElementById('supply_shop_modal').style.display = 'none';
-};
-
-window.buySupply = function(supplyType, cost) {
-    if (petData.stats.money >= cost) {
-        petData.stats.money -= cost;
-        let itemName = '';
-        let statBoost = {};
-        let messages = [];
-        
-        if (supplyType === 'premiumFood') {
-            statBoost = { hunger: 10 };
-            itemName = 'Premium Food';
-            messages = ['This is delicious!', 'So much better!', 'Yummy!', 'Tastes amazing!'];
-        } else if (supplyType === 'grooming') {
-            statBoost = { health: 10 };
-            itemName = 'Grooming Kit';
-            messages = ['Feeling fresh!', 'So clean!', 'Much better!', 'Nice and tidy!'];
-        } else if (supplyType === 'bed') {
-            statBoost = { energy: 15 };
-            itemName = 'Comfy Bed';
-            messages = ['So comfy!', 'Best sleep ever!', 'Love this bed!', 'So cozy!'];
-        }
-        
-        Object.keys(statBoost).forEach(stat => {
-            petData.stats[stat] = Math.min(100, petData.stats[stat] + statBoost[stat]);
-        });
-        
-        addLog(itemName, cost);
-        const msg = messages[Math.floor(Math.random() * messages.length)];
-        showActionFeedback(msg, 'positive');
-        
-        animatePet('happy');
-        makePetSpeak('Thanks!', 2000);
-        
-        save(); updateUI(); updatePetEmotion();
-    } else {
-        const messages = ['Too expensive', 'Can\'t buy that', 'Need more money', 'Broke'];
-        showActionFeedback('❌ ' + messages[Math.floor(Math.random() * messages.length)], 'negative');
-    }
-};
+// toy/supply shops removed (stubs deleted)
 
 function addLog(item, cost) {
     expenseLog.push({ item, cost, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
-    if (cost > 0) {
+    const MAX_LOG = 200;
+    if (expenseLog.length > MAX_LOG) expenseLog.splice(0, expenseLog.length - MAX_LOG);
+    if (cost > 0 && petData) {
         petData.totalExpenses = (petData.totalExpenses || 0) + cost;
     }
-    localStorage.setItem('expenseLog', JSON.stringify(expenseLog));
     save();
 }
-function save() { localStorage.setItem('myPetData', JSON.stringify(petData)); }
+
+// Debounced save to avoid blocking the UI with frequent synchronous localStorage writes
+let __saveTimeout = null;
+function save() {
+    if (__saveTimeout) clearTimeout(__saveTimeout);
+    __saveTimeout = setTimeout(() => {
+        try {
+            if (petData) localStorage.setItem('myPetData', JSON.stringify(petData));
+            localStorage.setItem('expenseLog', JSON.stringify(expenseLog));
+        } catch (e) {
+            console.warn('Failed to save data to localStorage:', e);
+        }
+        __saveTimeout = null;
+    }, 150);
+}
+
+// End of file
