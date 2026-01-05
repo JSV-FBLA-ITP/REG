@@ -2,32 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="main/styles.css">
+    <link rel="stylesheet" href="main/modern-styles.css">
     <title>Adopt - FBLA Pet</title>
 </head>
 <body>
-    <div class="container">
-        <nav class="navbar">
-            <ul><li><a href="index.html">Home</a></li><li><a href="main/html/credits.html">Credits</a></li></ul>
-            <button id="theme-toggle" class="btn" onclick="toggleTheme()" style="padding: 6px 12px;">🌙 Dark Mode</button>
-        </nav>
-        
-        <div class="main-card">
-            <h1>Select Your Companion</h1>
-            <p style="color: var(--text-muted);">Each pet has its own unique journey. Choose wisely!</p>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="top-bar">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="main/html/credits.html">Credits</a></li>
+        </ul>
+        <button id="theme-toggle" class="theme-btn" onclick="toggleTheme()">🌙 Dark Mode</button>
+    </div>
+
+    <div class="index-container">
+        <div class="content-card">
+            <h1 class="page-title">Select Your Companion</h1>
+            <p class="page-subtitle">Each pet has its own unique journey. Choose wisely!</p>
             
             <div id="pet-selection-grid" class="pet-grid">
-                <div class="pet-card" data-pet="Dog"><img src="main/img/Dog-Pic.webp" class="pet-icon"><h3>Dog</h3></div>
-                <div class="pet-card" data-pet="Cat"><img src="main/img/Cat-Pic.jpeg" class="pet-icon"><h3>Cat</h3></div>
-                <div class="pet-card" data-pet="Hamster"><img src="main/img/hamster-pic.jpeg" class="pet-icon"><h3>Hamster</h3></div>
-                <div class="pet-card" data-pet="Horse"><img src="main/img/horse-pic.jpeg" class="pet-icon"><h3>Horse</h3></div>
-                <div class="pet-card" data-pet="Fish"><img src="main/img/fish-pic.jpeg" class="pet-icon"><h3>Fish</h3></div>
+                <div class="pet-card" data-pet="Dog">
+                    <img src="main/img/Dog-Pic.webp" class="pet-icon">
+                    <h3>Dog</h3>
+                </div>
+                <div class="pet-card" data-pet="Cat">
+                    <img src="main/img/Cat-Pic.jpeg" class="pet-icon">
+                    <h3>Cat</h3>
+                </div>
+                <div class="pet-card" data-pet="Hamster">
+                    <img src="main/img/hamster-pic.jpeg" class="pet-icon">
+                    <h3>Hamster</h3>
+                </div>
+                <div class="pet-card" data-pet="Horse">
+                    <img src="main/img/horse-pic.jpeg" class="pet-icon">
+                    <h3>Horse</h3>
+                </div>
+                <div class="pet-card" data-pet="Fish">
+                    <img src="main/img/fish-pic.jpeg" class="pet-icon">
+                    <h3>Fish</h3>
+                </div>
             </div>
             
             <button id="start-btn" class="btn" disabled onclick="window.location.href='main/html/customize.html'">Next Step</button>
         </div>
     </div>
     <script src="main/script.js"></script>
-    
 </body>
 </html>

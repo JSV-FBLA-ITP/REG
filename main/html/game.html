@@ -3,59 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../modern-styles.css">
     <title>Game - FBLA Pet</title>
 </head>
 <body>
-    <div class="container">
-        <nav class="navbar">
-            <h2 id="pet-name-display" style="margin:0;">Pet Name</h2>
-            <button id="theme-toggle" class="btn" onclick="toggleTheme()" style="padding: 6px 12px;">🌙 Dark Mode</button>
-        </nav>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
 
-        <div class="main-card" style="max-width: 900px;">
-            <div style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; align-items: flex-start;">
-                
-                <div style="flex: 1; min-width: 320px;">
-                    <div id="petImg" style="background: var(--bg-color); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; font-size: 4rem; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid var(--border);">
-                        🐾
+    <div class="top-bar">
+        <h2 id="pet-name-display" class="pet-name-header">Pet Name</h2>
+        <button id="theme-toggle" class="theme-btn" onclick="toggleTheme()">🌙 Dark Mode</button>
+    </div>
+
+    <div class="page-container">
+        <div class="content-card">
+            <div class="game-layout">
+                <div class="game-visual-section">
+                    <div id="petImg" class="pet-image-container">
+                        <div id="pet-display" class="pet-display" onclick="interactWithPet()" onmouseenter="petHover()" onmouseleave="petLeave()">🐾</div>
+                        <div id="action-feedback" class="action-feedback"></div>
+                        <div id="pet-speech" class="pet-speech"></div>
                     </div>
                     
-                    <div class="expense-list" style="margin: 0; max-width: none; width: 100%;">
-                        <h4 style="margin-top:0;">Recent Activity</h4>
-                        <ul id="expense-list" style="list-style: none; padding: 0;"></ul>
+                    <div class="interaction-hint">
+                        <p>👆 Click or tap your pet to interact!</p>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <h4>Recent Activity</h4>
+                        <ul id="expense-list"></ul>
                     </div>
                 </div>
 
-                <div style="flex: 1; min-width: 320px;">
-                    <div style="margin-bottom: 2rem; background: var(--bg-color); padding: 10px; border-radius: 12px;">
-                        <h2 style="margin: 0;">Bank: $<span id="money-display">0</span></h2>
+                <div class="game-controls-section">
+                    <div class="bank-display">
+                        <h2>Bank: $<span id="money-display">0</span></h2>
                     </div>
 
-                    <div class="stats-row" style="margin-top: 0; gap: 15px; justify-content: space-around;">
-                        <div class="stat-item">
-                            <div id="hunger-circle" class="circle-progress"><span id="hunger-val">0%</span></div>
-                            <p class="words">Hunger</p>
+                    <div class="stats-container">
+                        <div class="stat-bar-item">
+                            <div class="stat-label">
+                                <span>🍽️ Hunger</span>
+                                <span id="hunger-val" class="stat-value">0%</span>
+                            </div>
+                            <div class="stat-bar-wrapper">
+                                <div id="hunger-bar" class="stat-bar stat-bar-hunger" style="width: 100%"></div>
+                            </div>
                         </div>
-                        <div class="stat-item">
-                            <div id="happy-circle" class="circle-progress"><span id="happy-val">0%</span></div>
-                            <p class="words">Happiness</p>
+                        <div class="stat-bar-item">
+                            <div class="stat-label">
+                                <span>😊 Happiness</span>
+                                <span id="happy-val" class="stat-value">0%</span>
+                            </div>
+                            <div class="stat-bar-wrapper">
+                                <div id="happy-bar" class="stat-bar stat-bar-happy" style="width: 100%"></div>
+                            </div>
                         </div>
-                        <div class="stat-item">
-                            <div id="energy-circle" class="circle-progress"><span id="energy-val">0%</span></div>
-                            <p class="words">Energy</p>
+                        <div class="stat-bar-item">
+                            <div class="stat-label">
+                                <span>⚡ Energy</span>
+                                <span id="energy-val" class="stat-value">0%</span>
+                            </div>
+                            <div class="stat-bar-wrapper">
+                                <div id="energy-bar" class="stat-bar stat-bar-energy" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="stat-bar-item">
+                            <div class="stat-label">
+                                <span>💊 Health</span>
+                                <span id="health-val" class="stat-value">0%</span>
+                            </div>
+                            <div class="stat-bar-wrapper">
+                                <div id="health-bar" class="stat-bar stat-bar-health" style="width: 100%"></div>
+                            </div>
                         </div>
                     </div>
 
-                    <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;">
-                        <button class="btn" style="flex: 1;" onclick="handleAction('feed')">Feed ($25)</button>
-                        <button class="btn" style="flex: 1;" onclick="handleAction('play')">Play ($10)</button>
-                        <button class="btn" style="background: #65676b; flex: 1;" onclick="handleAction('sleep')">Sleep</button>
+                    <div id="pet-emotion" class="pet-emotion-display">
+                        <p id="emotion-text">😊 Feeling good!</p>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="handleAction('feed')">Feed ($25)</button>
+                        <button class="action-btn" onclick="handleAction('play')">Play ($10)</button>
+                        <button class="action-btn action-btn-sleep" onclick="handleAction('sleep')">Sleep</button>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="handleAction('clean')">Clean ($15)</button>
+                        <button class="action-btn" onclick="handleAction('healthCheck')">Health Check ($30)</button>
+                        <button class="action-btn" onclick="handleAction('vet')">Vet Visit ($100)</button>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="openToyShop()">Buy Toys ($20)</button>
+                        <button class="action-btn" onclick="openSupplyShop()">Buy Supplies ($35)</button>
                     </div>
                     
-                    <button class="btn" style="background: var(--sucustomizeess); width: 100%; margin-bottom: 10px;" onclick="earnMoney()">Perform Chores (+$60)</button>
+                    <button class="action-btn action-btn-success full-width-btn" onclick="earnMoney()">Perform Chores (+$60)</button>
                     
-                    <button class="btn" style="background: #9b59b6; width: 100%;" onclick="shop_toggleWindow()">Open Power-Up Shop</button>
+                    <button class="action-btn action-btn-purple full-width-btn" onclick="shop_toggleWindow()">Open Power-Up Shop</button>
+
+                    <div class="expense-summary">
+                        <h4>Total Expenses: $<span id="total-expenses">0</span></h4>
+                        <h4>Savings Goal: $<span id="savings-goal">500</span> | Current: $<span id="savings-current">0</span></h4>
+                    </div>
                 </div>
             </div>
         </div>
@@ -63,23 +118,71 @@
 
     <div id="shop_powerup_modal" class="modal">
         <div class="modal-content">
-            <h2 style="margin-top:0;">Power-Up Shop</h2>
-            <p style="font-size: 0.8rem; color: var(--text-muted);">Max 3 per stat (-10% drain each)</p>
+            <h2>Power-Up Shop</h2>
+            <p>Max 3 per stat (-10% drain each)</p>
             <div class="shop-grid">
                 <div class="shop-item">
                     <div><p>🍲 Food Saver</p><small id="shop_count_hunger">3 left</small></div>
-                    <button onclick="shop_purchaseUpgrade('hunger')" class="btn shop-buy-btn">$300</button>
+                    <button onclick="shop_purchaseUpgrade('hunger')" class="modern-btn shop-buy-btn">$300</button>
                 </div>
                 <div class="shop-item">
                     <div><p>😊 Happy Boost</p><small id="shop_count_happy">3 left</small></div>
-                    <button onclick="shop_purchaseUpgrade('happy')" class="btn shop-buy-btn">$300</button>
+                    <button onclick="shop_purchaseUpgrade('happy')" class="modern-btn shop-buy-btn">$300</button>
                 </div>
                 <div class="shop-item">
                     <div><p>⚡ Energy Cell</p><small id="shop_count_energy">3 left</small></div>
-                    <button onclick="shop_purchaseUpgrade('energy')" class="btn shop-buy-btn">$300</button>
+                    <button onclick="shop_purchaseUpgrade('energy')" class="modern-btn shop-buy-btn">$300</button>
+                </div>
+                <div class="shop-item">
+                    <div><p>💊 Health Boost</p><small id="shop_count_health">3 left</small></div>
+                    <button onclick="shop_purchaseUpgrade('health')" class="modern-btn shop-buy-btn">$300</button>
                 </div>
             </div>
             <button onclick="shop_toggleWindow()" class="close-modal-btn">Close Window</button>
+        </div>
+    </div>
+
+    <div id="toy_shop_modal" class="modal">
+        <div class="modal-content">
+            <h2>Toy Shop</h2>
+            <p>Buy toys to keep your pet happy!</p>
+            <div class="shop-grid">
+                <div class="shop-item">
+                    <div><p>🎾 Tennis Ball</p><small>+5 Happiness</small></div>
+                    <button onclick="buyToy('ball', 20)" class="modern-btn shop-buy-btn">$20</button>
+                </div>
+                <div class="shop-item">
+                    <div><p>🧸 Stuffed Toy</p><small>+8 Happiness</small></div>
+                    <button onclick="buyToy('toy', 30)" class="modern-btn shop-buy-btn">$30</button>
+                </div>
+                <div class="shop-item">
+                    <div><p>🎯 Puzzle Game</p><small>+10 Happiness</small></div>
+                    <button onclick="buyToy('puzzle', 40)" class="modern-btn shop-buy-btn">$40</button>
+                </div>
+            </div>
+            <button onclick="closeToyShop()" class="close-modal-btn">Close Window</button>
+        </div>
+    </div>
+
+    <div id="supply_shop_modal" class="modal">
+        <div class="modal-content">
+            <h2>Supply Shop</h2>
+            <p>Essential supplies for your pet</p>
+            <div class="shop-grid">
+                <div class="shop-item">
+                    <div><p>🍖 Premium Food</p><small>+10 Hunger</small></div>
+                    <button onclick="buySupply('premiumFood', 35)" class="modern-btn shop-buy-btn">$35</button>
+                </div>
+                <div class="shop-item">
+                    <div><p>🧴 Grooming Kit</p><small>+10 Health</small></div>
+                    <button onclick="buySupply('grooming', 40)" class="modern-btn shop-buy-btn">$40</button>
+                </div>
+                <div class="shop-item">
+                    <div><p>🛏️ Comfy Bed</p><small>+15 Energy</small></div>
+                    <button onclick="buySupply('bed', 50)" class="modern-btn shop-buy-btn">$50</button>
+                </div>
+            </div>
+            <button onclick="closeSupplyShop()" class="close-modal-btn">Close Window</button>
         </div>
     </div>
 

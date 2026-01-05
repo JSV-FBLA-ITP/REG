@@ -2,34 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../modern-styles.css">
     <title>Customize - FBLA Pet</title>
 </head>
 <body>
-    <div class="container">
-        <nav class="navbar">
-            <ul><li><a href="../../index.html">Home</a></li></ul>
-            <button id="theme-toggle" class="btn" onclick="toggleTheme()" style="padding: 6px 12px;">🌙 Dark Mode</button>
-        </nav>
-
-        <div class="main-card">
-    <h2>Customize your Pet </h2>
-    
-    <div class="ai-section" style="margin-bottom: 2rem; border: 1px dashed #3498db; padding: 15px; border-radius: 10px;">
-        <h3>AI Design Helper</h3>
-        <p style="font-size: 0.9rem;">Describe how your pet looks (e.g., "with a tiny hat" or "golden fur"):</p>
-        <div style="display: flex; gap: 10px;">
-            <input type="text" id="ai-prompt" placeholder="Describe appearance..." style="flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-            <button onclick="generatePetImage()" class="btn" style="background: #3498db;">Generate</button>
-        </div>
-        <div id="ai-result-display" style="margin-top: 15px; min-height: 50px;"></div>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
     </div>
 
-    <input type="text" id="pet-name" placeholder="Enter Pet Name" maxlength="12" style="flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-    <button onclick="window.finalizePet()" class="btn">Finish & Start</button>
-</div>
+    <div class="top-bar">
+        <ul>
+            <li><a href="../../home.html">Home</a></li>
+        </ul>
+        <button id="theme-toggle" class="theme-btn" onclick="toggleTheme()">🌙 Dark Mode</button>
+    </div>
 
-<script src="../script.js"></script>
-<script src="../imageGeneration.js"></script>
+    <div class="page-container">
+        <div class="content-card">
+            <h1 class="page-title">Customize Your Pet</h1>
+            
+            <div class="ai-section">
+                <h3>AI Design Helper</h3>
+                <p>Describe how your pet looks (e.g., "with a tiny hat" or "golden fur"):</p>
+                <div class="ai-input-group">
+                    <input type="text" id="ai-prompt" placeholder="Describe appearance..." class="modern-input">
+                    <button onclick="generatePetImage()" class="modern-btn modern-btn-secondary" style="margin: 0; padding: 15px 30px;">Generate</button>
+                </div>
+                <div id="ai-result-display"></div>
+            </div>
+
+            <input type="text" id="pet-name" placeholder="Enter Pet Name" maxlength="12" class="modern-input">
+            <button onclick="window.finalizePet()" class="modern-btn">Finish & Start</button>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script src="../imageGeneration.js"></script>
 </body>
 </html>
