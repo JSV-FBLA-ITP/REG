@@ -117,7 +117,8 @@ function getDiminishedBoost(stat, baseBoost) {
     return Math.max(0, Math.round(raw));
 }
 
-// shop lock removed (no shop purchases)
+// Prevent concurrent shop actions
+// shop lock removed
 
 // Custom fixed boost mapping for play (happy) and feed (hunger)
 function computeRangeBoost(stat) {
@@ -137,8 +138,11 @@ function computeRangeBoost(stat) {
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     if (document.getElementById('pet-selection-grid')) initSelection();
+    // legacy shop cleanup removed
     if (window.location.pathname.includes('game.html')) initGame();
 });
+
+// legacy shop cleanup removed
 
 /* --- SELECTION LOGIC --- */
 function initSelection() {
@@ -165,6 +169,7 @@ window.finalizePet = function() {
     petData = {
         type, name, 
         stats: { hunger: 100, happy: 100, energy: 100, health: 100, money: 500 },
+        // shop fields removed
         totalExpenses: 0,
         savingsGoal: 500,
         savingsCurrent: 0,
@@ -180,6 +185,7 @@ window.finalizePet = function() {
 function initGame() {
     if (!petData) return;
     if (!petData.stats.health) petData.stats.health = 100;
+    // shop fields removed
     if (!petData.totalExpenses) petData.totalExpenses = 0;
     if (!petData.savingsGoal) petData.savingsGoal = 500;
     if (!petData.savingsCurrent) petData.savingsCurrent = 0;
@@ -218,6 +224,8 @@ function initGame() {
 
 // shop UI removed
 
+// shop buttons removed
+
 function updateUI() {
     if (!petData) return;
     const petNameEl = document.getElementById('pet-name-display');
@@ -241,7 +249,7 @@ function updateUI() {
 
         if (valEl) valEl.textContent = v + '%';
 
-        // shop counts removed
+            // shop UI removed
     });
 
     const totalExpensesEl = document.getElementById('total-expenses');
@@ -458,9 +466,7 @@ window.petLeave = function() {
     }
 };
 
-// shop_toggleWindow removed (power-up shop removed)
-
-// power-up shop removed
+// shop code removed
 
 window.handleAction = function(action) {
     disableButtonsTemporarily();
