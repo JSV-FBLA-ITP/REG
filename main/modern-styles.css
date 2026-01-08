@@ -1,5 +1,8 @@
 /* Modern UI Styles for Pet Pal Game Pages */
 
+/* Import Google Fonts - Bricolage Grotesque */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@200;300;400;500;600;700;800&display=swap');
+
 :root {
     --gradient-start: #667eea;
     --gradient-end: #764ba2;

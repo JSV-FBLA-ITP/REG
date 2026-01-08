@@ -709,7 +709,24 @@ window.restartGame = function() {
     localStorage.removeItem('tempPetType');
     
     // Navigate back to index.html
-    window.location.href = '../../index.html';
+    // game.html is at main/html/game.html, so we need to go up 2 levels
+    try {
+        // Try using the base URL
+        const baseUrl = window.location.origin;
+        const pathParts = window.location.pathname.split('/').filter(p => p);
+        const regIndex = pathParts.indexOf('REG');
+        
+        if (regIndex !== -1) {
+            // Build path from REG folder
+            window.location.href = baseUrl + '/' + pathParts.slice(0, regIndex + 1).join('/') + '/index.html';
+        } else {
+            // Fallback: relative path (go up 2 levels from main/html/)
+            window.location.href = '../../index.html';
+        }
+    } catch (e) {
+        // Final fallback
+        window.location.href = '../../index.html';
+    }
 };
 
 // End of file
