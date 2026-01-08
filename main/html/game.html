@@ -104,7 +104,7 @@
                     
                     <button class="action-btn action-btn-success full-width-btn" onclick="earnMoney()">Perform Chores (+$60)</button>
                     
-                    <!-- Power-Up Shop removed -->
+                    <button class="action-btn action-btn-purple full-width-btn" onclick="shop_toggleWindow()">Open Power-Up Shop</button>
 
                     <div class="expense-summary">
                         <h4>Total Expenses: $<span id="total-expenses">0</span></h4>
@@ -115,11 +115,36 @@
         </div>
     </div>
 
-    <!-- Power-Up Shop removed -->
+    <div id="shop_powerup_modal" class="modal">
+        <div class="modal-content">
+            <h2>Power-Up Shop</h2>
+            <p>Reduce stat loss by 10% per upgrade (max 3 per stat)</p>
+            <div class="shop-grid">
+                <div class="shop-item">
+                    <div><p>🍽️ Hunger Saver</p><small id="shop_count_hunger">3 left</small></div>
+                    <button onclick="shop_purchaseUpgrade('hunger')" class="modern-btn shop-buy-btn">$300</button>
+                </div>
+                <div class="shop-item">
+                    <div><p>😊 Happiness Saver</p><small id="shop_count_happy">3 left</small></div>
+                    <button onclick="shop_purchaseUpgrade('happy')" class="modern-btn shop-buy-btn">$300</button>
+                </div>
+                <div class="shop-item">
+                    <div><p>⚡ Energy Saver</p><small id="shop_count_energy">3 left</small></div>
+                    <button onclick="shop_purchaseUpgrade('energy')" class="modern-btn shop-buy-btn">$300</button>
+                </div>
+            </div>
+            <button onclick="shop_toggleWindow()" class="close-modal-btn">Close Window</button>
+        </div>
+    </div>
 
-    <!-- Toy shop removed -->
-
-    <!-- Supply shop removed -->
+    <div id="game_over_modal" class="modal">
+        <div class="modal-content game-over-modal">
+            <h2>💔 Game Over</h2>
+            <p class="game-over-message">Your pet has died due to poor health.</p>
+            <p class="game-over-submessage">Please take better care of your pet next time!</p>
+            <button onclick="restartGame()" class="modern-btn restart-btn">Restart Game</button>
+        </div>
+    </div>
 
     <script src="../backgroundImages.js"></script>
     <script src="../script.js"></script>

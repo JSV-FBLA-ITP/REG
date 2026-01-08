@@ -538,7 +538,27 @@ h4 {
 
 .shop-buy-btn { 
     padding: 8px 16px !important; 
-    font-size: 0.85rem !important; 
+    font-size: 0.85rem !important;
+    background: var(--golden) !important;
+    color: var(--chocolate-dark) !important;
+    border: 2px solid var(--chocolate) !important;
+    border-radius: 16px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.shop-buy-btn:hover {
+    background: var(--golden-dark) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 3px 8px rgba(255, 149, 0, 0.4) !important;
+}
+
+.shop-buy-btn:disabled {
+    background: var(--sage-light) !important;
+    color: var(--chocolate-light) !important;
+    cursor: not-allowed !important;
+    opacity: 0.6 !important;
 }
 
 .close-modal-btn { 
@@ -554,6 +574,55 @@ h4 {
 
 .close-modal-btn:hover {
     color: var(--golden-dark);
+}
+
+/* Game Over Modal Styles */
+.game-over-modal {
+    max-width: 450px;
+    animation: gameOverFadeIn 0.5s ease;
+}
+
+@keyframes gameOverFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.game-over-message {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--chocolate-dark);
+    margin: 1rem 0;
+    font-family: 'Nunito', sans-serif;
+}
+
+.game-over-submessage {
+    font-size: 1rem;
+    color: var(--chocolate-light);
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+.restart-btn {
+    padding: 16px 40px !important;
+    font-size: 1.1rem !important;
+    background: var(--golden) !important;
+    color: var(--chocolate-dark) !important;
+    border: 3px solid var(--chocolate) !important;
+    font-weight: 800 !important;
+    margin-top: 1rem;
+    box-shadow: 0 4px 12px rgba(255, 149, 0, 0.4) !important;
+}
+
+.restart-btn:hover {
+    background: var(--golden-dark) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 6px 16px rgba(255, 149, 0, 0.5) !important;
 }
 
 .generated-image-container {
@@ -1387,6 +1456,17 @@ input[type="text"]:focus {
 .action-btn-success {
     background: var(--sucustomizeess);
     color: white;
+}
+
+.action-btn-purple {
+    background: #9b59b6;
+    color: white;
+}
+
+.action-btn-purple:hover {
+    background: #8e44ad;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(155, 89, 182, 0.4);
 }
 
 .full-width-btn {

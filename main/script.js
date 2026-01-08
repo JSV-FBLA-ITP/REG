@@ -169,7 +169,8 @@ window.finalizePet = function() {
     petData = {
         type, name, 
         stats: { hunger: 100, happy: 100, energy: 100, health: 100, money: 500 },
-        // shop fields removed
+        shop_multipliers: { hunger: 1.0, happy: 1.0, energy: 1.0, health: 1.0 },
+        shop_upgrades: { hunger: 0, happy: 0, energy: 0, health: 0 },
         totalExpenses: 0,
         savingsGoal: 500,
         savingsCurrent: 0,
@@ -185,7 +186,8 @@ window.finalizePet = function() {
 function initGame() {
     if (!petData) return;
     if (!petData.stats.health) petData.stats.health = 100;
-    // shop fields removed
+    if (!petData.shop_multipliers) petData.shop_multipliers = { hunger: 1.0, happy: 1.0, energy: 1.0, health: 1.0 };
+    if (!petData.shop_upgrades) petData.shop_upgrades = { hunger: 0, happy: 0, energy: 0, health: 0 };
     if (!petData.totalExpenses) petData.totalExpenses = 0;
     if (!petData.savingsGoal) petData.savingsGoal = 500;
     if (!petData.savingsCurrent) petData.savingsCurrent = 0;
@@ -210,14 +212,31 @@ function initGame() {
     updateUI();
     updatePetEmotion();
     setInterval(() => {
+        // Check if game is already over
+        if (petData.stats.health <= 0) {
+            return; // Stop the game loop if health is already 0
+        }
+        
         const mult = petData.personality === 'energetic' ? 5 : 3;
-        petData.stats.hunger = Math.max(0, petData.stats.hunger - mult);
-        petData.stats.happy = Math.max(0, petData.stats.happy - 5);
-        petData.stats.energy = Math.max(0, petData.stats.energy - 1);
+        // Apply shop multipliers to reduce stat loss
+        const hungerLoss = mult * (petData.shop_multipliers?.hunger || 1.0);
+        const happyLoss = 5 * (petData.shop_multipliers?.happy || 1.0);
+        const energyLoss = 1 * (petData.shop_multipliers?.energy || 1.0);
+        
+        petData.stats.hunger = Math.max(0, petData.stats.hunger - hungerLoss);
+        petData.stats.happy = Math.max(0, petData.stats.happy - happyLoss);
+        petData.stats.energy = Math.max(0, petData.stats.energy - energyLoss);
         // Health decreases if other stats are low
         if (petData.stats.hunger < 30 || petData.stats.happy < 30) {
-            petData.stats.health = Math.max(0, petData.stats.health - 2);
+            petData.stats.health = Math.max(0, petData.stats.health - (2 * (petData.shop_multipliers?.health || 1.0)));
         }
+        
+        // Check if health reached zero
+        if (petData.stats.health <= 0) {
+            showGameOver();
+            return;
+        }
+        
         save(); updateUI(); updatePetEmotion();
     }, 2000);
 }
@@ -228,6 +247,13 @@ function initGame() {
 
 function updateUI() {
     if (!petData) return;
+    
+    // Check if health is zero and show game over
+    if (petData.stats.health <= 0) {
+        showGameOver();
+        return;
+    }
+    
     const petNameEl = document.getElementById('pet-name-display');
     if (petNameEl) petNameEl.textContent = petData.name || '';
     const moneyEl = document.getElementById('money-display');
@@ -249,7 +275,19 @@ function updateUI() {
 
         if (valEl) valEl.textContent = v + '%';
 
-            // shop UI removed
+        // Update shop UI
+        const countEl = document.getElementById(`shop_count_${s}`);
+        if (countEl) {
+            const count = petData.shop_upgrades?.[s] || 0;
+            const btn = countEl.parentElement.nextElementSibling;
+            if (count >= 3) {
+                countEl.textContent = "MAXED OUT";
+                if (btn) btn.disabled = true;
+            } else {
+                countEl.textContent = `${3 - count} left`;
+                if (btn) btn.disabled = false;
+            }
+        }
     });
 
     const totalExpensesEl = document.getElementById('total-expenses');
@@ -409,6 +447,10 @@ function animatePet(animationType) {
 
 window.interactWithPet = function() {
     if (!petData) return;
+    // Prevent interactions if game is over
+    if (petData.stats.health <= 0) {
+        return;
+    }
     
     const now = Date.now();
     petData.lastInteraction = now;
@@ -469,6 +511,10 @@ window.petLeave = function() {
 // shop code removed
 
 window.handleAction = function(action) {
+    // Prevent actions if game is over
+    if (petData && petData.stats.health <= 0) {
+        return;
+    }
     disableButtonsTemporarily();
     let feedback = '';
     let feedbackType = 'positive';
@@ -559,6 +605,10 @@ window.handleAction = function(action) {
 };
 
 window.earnMoney = function() {
+    // Prevent actions if game is over
+    if (petData && petData.stats.health <= 0) {
+        return;
+    }
     disableButtonsTemporarily();
     if (petData.stats.energy >= 25) {
         petData.stats.money += 60;
@@ -599,5 +649,67 @@ function save() {
         __saveTimeout = null;
     }, 150);
 }
+
+window.shop_toggleWindow = function() {
+    const modal = document.getElementById('shop_powerup_modal');
+    if (modal) {
+        modal.style.display = (modal.style.display === "flex") ? "none" : "flex";
+        updateUI(); // Refresh shop counts when opening
+    }
+};
+
+window.shop_purchaseUpgrade = function(type) {
+    if (!petData) return;
+    if (!petData.shop_upgrades) petData.shop_upgrades = { hunger: 0, happy: 0, energy: 0, health: 0 };
+    if (!petData.shop_multipliers) petData.shop_multipliers = { hunger: 1.0, happy: 1.0, energy: 1.0, health: 1.0 };
+    
+    const currentUpgrades = petData.shop_upgrades[type] || 0;
+    const cost = 300;
+    
+    if (currentUpgrades >= 3) {
+        showActionFeedback('Already maxed out!', 'negative');
+        return;
+    }
+    
+    if (petData.stats.money < cost) {
+        const messages = ['Too broke for that', 'Can\'t afford it', 'Need more cash', 'Not enough money'];
+        showActionFeedback('❌ ' + messages[Math.floor(Math.random() * messages.length)], 'negative');
+        return;
+    }
+    
+    // Purchase upgrade - reduces stat loss by 10% (multiply by 0.9)
+    petData.stats.money -= cost;
+    petData.shop_upgrades[type]++;
+    petData.shop_multipliers[type] = (petData.shop_multipliers[type] || 1.0) * 0.9;
+    addLog(`${type.toUpperCase()} Power-Up`, cost);
+    
+    const messages = ['Upgrade complete!', 'Nice upgrade!', 'Got it!', 'Upgraded!'];
+    showActionFeedback('⚡ ' + messages[Math.floor(Math.random() * messages.length)], 'positive');
+    
+    save(); 
+    updateUI();
+};
+
+function showGameOver() {
+    // Stop all game interactions
+    const modal = document.getElementById('game_over_modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        // Disable all action buttons
+        const buttons = document.querySelectorAll('.action-btn, .modern-btn');
+        buttons.forEach(btn => btn.disabled = true);
+    }
+}
+
+window.restartGame = function() {
+    // Clear game data
+    localStorage.removeItem('myPetData');
+    localStorage.removeItem('expenseLog');
+    localStorage.removeItem('petImage');
+    localStorage.removeItem('tempPetType');
+    
+    // Navigate back to index.html
+    window.location.href = '../../index.html';
+};
 
 // End of file

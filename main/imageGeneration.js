@@ -1,4 +1,4 @@
-const HF_TOKEN = "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"; 
+const HF_TOKEN = "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"; 
 
 async function generatePetImage() {
     const promptInput = document.getElementById("ai-prompt");
