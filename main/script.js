@@ -357,11 +357,11 @@ function showActionFeedback(message, type = 'positive') {
     feedbackEl.textContent = message;
     feedbackEl.className = `action-feedback ${type}`;
     feedbackEl.style.opacity = '1';
-    feedbackEl.style.transform = 'translateY(0)';
+    feedbackEl.style.transform = 'translateX(-50%) translateY(0)';
     
     setTimeout(() => {
         feedbackEl.style.opacity = '0';
-        feedbackEl.style.transform = 'translateY(-20px)';
+        feedbackEl.style.transform = 'translateX(-50%) translateY(-20px)';
     }, 2000);
 }
 
@@ -371,11 +371,11 @@ function makePetSpeak(message, duration = 3000) {
     
     speechEl.textContent = message;
     speechEl.style.opacity = '1';
-    speechEl.style.transform = 'translateY(0) scale(1)';
+    speechEl.style.transform = 'translateX(-50%) translateY(0) scale(1)';
     
     setTimeout(() => {
         speechEl.style.opacity = '0';
-        speechEl.style.transform = 'translateY(-10px) scale(0.9)';
+        speechEl.style.transform = 'translateX(-50%) translateY(-10px) scale(0.9)';
     }, duration);
 }
 
