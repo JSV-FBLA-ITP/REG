@@ -711,5 +711,3 @@ window.restartGame = function() {
     // Navigate back to index.html
     window.location.href = '../../index.html';
 };
-
-// End of file
